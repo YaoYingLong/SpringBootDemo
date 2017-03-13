@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Security Example </title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div  class="container col-xs-4">
+    </div>
+    <div class="container col-xs-4" style="margin-top: 15%;">
+
+        <div  class="">
+            <form  th:action="@{/login}" method="post">
+                <div class="form-group" th:if="${param.error}">
+                    <label for="exampleInputEmail1" th:text="${param.error[0]}">用户名或密码错</label>
+                </div>
+                <div class="form-group" th:if="${param.logout}">
+                    <label for="exampleInputEmail1">您已注销成功</label>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">User Name</label>
+                    <input type="username" class="form-control" name="username" id="exampleInputEmail1" placeholder="Username"/>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password"/>
+                </div>
+                <div class="form-group">
+                    <div class="form-group" style="width: 60%;float: left;">
+                        <label for="exampleInputPassword1">Auth Code</label>
+                        <input type="test" class="form-control" name="authcode" id="exampleInputPassword1" placeholder="Auth Code"/>
+                    </div>
+                    <div class="form-group" style="width:38%;float: left;padding: 27px 0 0 30px;">
+                        <img id="AuthCodeImg" src="/AuthCode"/>
+                    </div>
+                </div>
+                <div class="form-group" style="padding-top: 10px;float: right;">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    $("#AuthCodeImg").click(function () {
+        $(this).attr("src" , "/AuthCode?timestamp="+genTimestamp())
+    })
+    function genTimestamp() {
+        var time = new Date();
+        return time.getTime();
+    }
+    console.log(localStorage.getItem('key'))
+</script>
+</html>

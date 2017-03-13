@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<head>
+    <title tiles:fragment="title">Communication Matrix</title>
+</head>
+<body>
+<span id="top"></span>
+	<h1><span style="font-size:100px;">:(</span> Oops, something went wrong</h1>
+	<br/><br/><br/>
+	<span th:text="${message}" th:if="${message != null}"></span>
+	<br/><br/><br/>
+	<a href="/" style="font-size:20px;">Back to dashboard</a>
+	<br/><br/>
+	<br/><br/>
+	<p/>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="btn" style="font-size:20px;">Logout</button>
+    </form>
+</body>
+</html>

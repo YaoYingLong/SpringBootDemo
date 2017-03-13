@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:tiles="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+    <p>
+        <a href="/logout">
+            <span>Log out</span>
+        </a>
+    </p>
+    <p th:text="${name}"></p>
+    <p th:if="${auth != null}" th:text="${auth}"></p>
+
+    <div th:if="${status != null}" style="margin-bottom: 20px;">
+        <span>Status:<label th:text="${status}"></label></span>
+        <span>Name:<label th:text="${name}"></label></span>
+        <span>Age:<label th:text="${age}"></label></span>
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_ADMIN')" > this is a  admin localUser</div>
+    <div sec:authorize="hasRole('ROLE_USER')" > this is a  general localUser </div>
+    <div sec:authorize="hasRole('ROLE_EDIT')" > this is a  edit localUser </div>
+
+    <div style="margin-top: 20px;" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_EDIT')">
+        <label>Admin or Edit Auth:</label>
+        <form th:action="@{/edit2}">
+            <input type="text" name="name" placeholder="input name"/>
+            <input type="text" name="age" placeholder="input age"/>
+            <input type="submit" name="name" value="Submit" placeholder="input name"/>
+        </form>
+    </div>
+    <!--<div style="margin-top: 20px;">
+        <label>User Auth:</label>
+        <form th:action="@{/edit2}">
+            <input type="text" name="name" placeholder="input name"/>
+            <input type="text" name="age" placeholder="input age"/>
+            <input type="submit" name="name" value="Submit" placeholder="input name"/>
+        </form>
+    </div>-->
+    <div style="margin-top: 20px;">
+        <label>Edit Auth:</label>
+        <form th:action="@{/edit3}">
+            <input type="text" name="name" placeholder="input name"/>
+            <input type="text" name="age" placeholder="input age"/>
+            <input type="submit" name="name" value="Submit" placeholder="input name"/>
+        </form>
+    </div>
+</body>
+</html>

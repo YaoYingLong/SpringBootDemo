@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	
+<head>
+    <title>Hello World!</title>
+</head>
+<body>
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="注销"/>
+</form>
+
+
+<div style="margin-top: 20px;" sec:authorize-url="hasPermission('edit','ROLE_USER')">
+    <label>Edit edit1111 Auth:</label>
+    <form th:action="@{/edit2}">
+        <input type="text" name="name" placeholder="input name"/>
+        <input type="text" name="age" placeholder="input age"/>
+        <input type="submit" name="name" value="Submit" placeholder="input name"/>
+    </form>
+</div>
+
+<button name="click" value="click" onclick="test()">Click</button>
+<div>
+    <textarea id="test" style="width: 600px;height: 200px" rows="20" cols="50"> </textarea>
+</div>
+<div id="lk">
+
+</div>
+<script>
+    function test(){
+        var text = document.getElementById("test").value;
+        var t = text.split("\n");
+        console.debug("text:"+t.length);
+        console.debug("text:"+text);
+    }
+    localStorage.setItem('key' , 'ggg,sss,s')
+//    localStorage.clear()
+    console.log(localStorage.length)
+    console.log("*****************************")
+    console.log(localStorage.getItem('key'))
+
+</script>
+</body>
+</html>
