@@ -1,16 +1,9 @@
 package com.nokia.example.Basics.Basic;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import java.awt.*;
-import java.awt.print.Printable;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import static org.junit.Assert.assertEquals;
 
@@ -123,13 +116,6 @@ public class StringTest {
         int y=5;
         x/=--y;
         System.out.println("result: "+x);
-    }
-
-    @Test
-    public void StringTest07(){
-        String t1 = "hello";
-        String t2 = "hel" + "lo";
-        System.out.println("t1==t2 " + (t1==t2));  //true
     }
 
     @Test
