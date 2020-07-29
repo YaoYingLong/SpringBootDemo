@@ -6,6 +6,7 @@ import org.w3c.dom.Entity;
 import sun.misc.resources.Messages_pt_BR;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by YLongYao on 2016/10/19.
@@ -129,4 +130,9 @@ public class MapIssue {
         Collections.synchronizedMap(map);
     }
 
+    @Test
+    public void ConcurrentHashMapTest() {
+        Map<String , String> map = new ConcurrentHashMap<String,String>();
+
+    }
 }

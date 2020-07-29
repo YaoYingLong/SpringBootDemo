@@ -25,8 +25,8 @@ public class BubblerSort {
     }
 
     private void bubblerSort01(int[] arr){
-        boolean flag = true;
-        for (int i=0; i < arr.length && flag; i++){
+            boolean flag = true;
+            for (int i=0; i < arr.length && flag; i++){
             flag = false;
             for(int j = arr.length - i; j > i ; j--){
                 if(arr[j - 1] > arr[j]){
