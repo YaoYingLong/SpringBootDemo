@@ -1,4 +1,4 @@
-package com.nokia.example.leetcode.tree;
+package com.nokia.example.leetcode.entity;
 
 /**
  * @author by YingLong on 2020/7/29

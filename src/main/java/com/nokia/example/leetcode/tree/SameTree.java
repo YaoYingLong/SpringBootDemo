@@ -1,6 +1,6 @@
-package com.nokia.example.leetcode;
+package com.nokia.example.leetcode.tree;
 
-import com.nokia.example.leetcode.tree.TreeNode;
+import com.nokia.example.leetcode.entity.TreeNode;
 
 /**
  * @author by YingLong on 2020/7/29
