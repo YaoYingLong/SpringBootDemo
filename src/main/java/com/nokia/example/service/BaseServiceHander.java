@@ -1,7 +1,6 @@
 package com.nokia.example.service;
 
 import com.nokia.example.model.Person;
-import org.hibernate.annotations.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 

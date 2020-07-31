@@ -27,6 +27,7 @@ public class SubsequenceTest {
         }
         System.out.println("MAX_VALUE:" + Integer.MAX_VALUE);
         System.out.println("MIN_VALUE:" + Integer.MIN_VALUE);
+        System.out.println("110:" + Integer.valueOf("110", 2));
     }
 
 }
