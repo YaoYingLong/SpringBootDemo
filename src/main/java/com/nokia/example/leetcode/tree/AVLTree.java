@@ -9,7 +9,13 @@ import com.nokia.example.leetcode.entity.TreeNode;
  */
 public class AVLTree {
     /**
-     * 判断是否是平衡二叉树
+     * 110
+     * 平衡二叉树
+     * <p>
+     * 面试题 04.04
+     * 检查平衡性
+     * <p>
+     * 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1
      *
      * @param treeNode
      * @return
@@ -27,9 +33,9 @@ public class AVLTree {
             return -1;
         }
         int rightDepth = recur(treeNode.right);
-        if (rightDepth == -1) {
+        if (rightDepth == -1 || Math.abs(leftDepth - rightDepth) > 1) {
             return -1;
         }
-        return Math.abs(leftDepth - rightDepth) < 2 ? Math.max(leftDepth, rightDepth) + 1 : -1;
+        return Math.max(leftDepth, rightDepth) + 1;
     }
 }
