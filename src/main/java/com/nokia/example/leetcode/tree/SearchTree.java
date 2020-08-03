@@ -2,6 +2,9 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.TreeNode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author by YingLong on 2020/7/30
  */
@@ -136,5 +139,53 @@ public class SearchTree {
             }
         }
         return root;
+    }
+
+    /**
+     * 剑指 Offer 54
+     * 二叉搜索树的第k大节点
+     *
+     * @param root
+     * @param k
+     * @return
+     */
+    public int kth = 1;
+
+    public int kthLargest(TreeNode root, int k) {
+        if (root == null) {
+            return -1;
+        }
+        int left = kthLargest(root.right, k);
+        if (left != -1) {
+            return left;
+        }
+        if (k == kth++) {
+            return root.val;
+        }
+        return kthLargest(root.left, k);
+    }
+
+    /**
+     * 653
+     * 两数之和 IV - 输入 BST
+     *
+     * @param root
+     * @param k
+     * @return
+     */
+    public List<Integer> differ = new ArrayList<>();
+    public boolean findTarget(TreeNode root, int k) {
+        if (root == null) {
+            return false;
+        }
+        boolean left = findTarget(root.left, k);
+        if (left) {
+            return true;
+        }
+        if (differ.contains(k - root.val)) {
+            return true;
+        }
+        differ.add(root.val);
+        return findTarget(root.right, k);
     }
 }
