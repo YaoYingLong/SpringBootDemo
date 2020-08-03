@@ -1,6 +1,8 @@
 package com.nokia.leetcode;
 
 import com.nokia.example.leetcode.entity.TreeNode;
+import com.nokia.example.leetcode.tree.BackorderTraversal;
+import com.nokia.example.leetcode.tree.BfsTraversal;
 import com.nokia.example.leetcode.tree.SearchTree;
 import com.nokia.example.leetcode.tree.TreeTraversal;
 import org.junit.Test;
@@ -34,5 +36,47 @@ public class TreeTest {
         SearchTree searchTree = new SearchTree();
         TreeNode result = searchTree.increasingBST(node5);
 
+    }
+    @Test
+    public void findSecondMinimumValueTest() {
+        TreeNode node1 = new TreeNode(2);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(2, node1, node2);
+        TreeNode node4 = new TreeNode(2);
+        TreeNode node5 = new TreeNode(2, node4, node3);
+
+        BackorderTraversal backorderTraversal = new BackorderTraversal();
+        int result = backorderTraversal.findSecondMinimumValue(node5);
+        System.out.println(result);
+    }
+
+    @Test
+    public void leafSimilarTest() {
+        /**
+         * [3,5,1,6,2,9,8,null,null,7,4]
+         * [3,5,1,6,7,4,2,null,null,null,null,null,null,9,8]
+         */
+        TreeNode node14 = new TreeNode(4);
+        TreeNode node17 = new TreeNode(7);
+        TreeNode node16 = new TreeNode(6);
+        TreeNode node15 = new TreeNode(5, node16, node17);
+        TreeNode node19 = new TreeNode(9);
+        TreeNode node18 = new TreeNode(8);
+        TreeNode node12 = new TreeNode(2, node19, node18);
+        TreeNode node11 = new TreeNode(1, node14, node12);
+        TreeNode node13 = new TreeNode(3, node15, node11);
+
+        TreeNode node24 = new TreeNode(4);
+        TreeNode node27 = new TreeNode(7);
+        TreeNode node22 = new TreeNode(2, node27, node24);
+        TreeNode node26 = new TreeNode(6);
+        TreeNode node25 = new TreeNode(5, node26, node22);
+        TreeNode node29 = new TreeNode(9);
+        TreeNode node28 = new TreeNode(8);
+        TreeNode node21 = new TreeNode(1, node29, node28);
+        TreeNode node23 = new TreeNode(3, node25, node21);
+
+        BfsTraversal bfsTraversal = new BfsTraversal();
+        System.out.println(bfsTraversal.leafSimilar(node23, node13));
     }
 }

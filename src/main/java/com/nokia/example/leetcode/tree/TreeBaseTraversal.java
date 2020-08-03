@@ -24,48 +24,6 @@ public class TreeBaseTraversal {
     }
 
     /**
-     * 中序遍历
-     */
-    public void inOrder(TreeNode treeNode) {
-        if (treeNode == null) {
-            return;
-        }
-        inOrder(treeNode.left);
-        System.out.println(treeNode);
-        inOrder(treeNode.right);
-    }
-
-    /**
-     * 后序遍历
-     */
-    public void backOrder(TreeNode treeNode) {
-        if (treeNode == null) {
-            return;
-        }
-        backOrder(treeNode.left);
-        backOrder(treeNode.right);
-        System.out.println(treeNode);
-    }
-
-    /**
-     * 层序遍历—广度优先遍历
-     */
-    public void bfs(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            TreeNode tree = queue.poll();
-            if (tree.left != null) {
-                queue.offer(tree.left);
-            }
-            if (tree.right != null) {
-                queue.offer(tree.right);
-            }
-            System.out.println(tree);
-        }
-    }
-
-    /**
      * 深度优先遍历——前序非递归遍历
      */
     public void preOrderDfs(TreeNode root) {
@@ -83,6 +41,17 @@ public class TreeBaseTraversal {
         }
     }
 
+    /**
+     * 中序遍历
+     */
+    public void inOrder(TreeNode treeNode) {
+        if (treeNode == null) {
+            return;
+        }
+        inOrder(treeNode.left);
+        System.out.println(treeNode);
+        inOrder(treeNode.right);
+    }
 
     /**
      * 深度优先遍历——中序非递归遍历
@@ -100,6 +69,18 @@ public class TreeBaseTraversal {
             System.out.print(currentNode);
             currentNode = currentNode.right;
         }
+    }
+
+    /**
+     * 后序遍历
+     */
+    public void backOrder(TreeNode treeNode) {
+        if (treeNode == null) {
+            return;
+        }
+        backOrder(treeNode.left);
+        backOrder(treeNode.right);
+        System.out.println(treeNode);
     }
 
     /**
@@ -126,6 +107,24 @@ public class TreeBaseTraversal {
             }
             stack.push(currentNode);
             currentNode = currentNode.right;
+        }
+    }
+
+    /**
+     * 层序遍历—广度优先遍历
+     */
+    public void bfs(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode tree = queue.poll();
+            if (tree.left != null) {
+                queue.offer(tree.left);
+            }
+            if (tree.right != null) {
+                queue.offer(tree.right);
+            }
+            System.out.println(tree);
         }
     }
 }
