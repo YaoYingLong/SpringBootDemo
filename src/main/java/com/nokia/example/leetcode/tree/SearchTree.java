@@ -58,6 +58,7 @@ public class SearchTree {
      * @return
      */
     public int longest = 0;
+
     public int longestUnivaluePath(TreeNode root) {
         traversal(root);
         return longest;
@@ -78,5 +79,62 @@ public class SearchTree {
         }
         longest = Math.max(longest, arrowLeft + arrowRight);
         return Math.max(arrowLeft, arrowRight);
+    }
+
+    /**
+     * 剑指 Offer 68 - I
+     * 二叉搜索树的最近公共祖先
+     * <p>
+     * 235
+     * 二叉搜索树的最近公共祖先
+     *
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root.val < p.val && root.val < q.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        }
+        if (root.val > p.val && root.val > q.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        }
+        return root;
+    }
+
+    /**
+     * 剑指 Offer 68 - I
+     * 二叉搜索树的最近公共祖先
+     * <p>
+     * 235
+     * 二叉搜索树的最近公共祖先
+     *
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestorV2(TreeNode root, TreeNode p, TreeNode q) {
+        // 保证 p.val < q.val
+        if (p.val > q.val) {
+            TreeNode tmp = p;
+            p = q;
+            q = tmp;
+        }
+        while (root != null) {
+            // p,q 都在 root 的右子树中
+            if (root.val < p.val) {
+                // 遍历至右子节点
+                root = root.right;
+                // p,q 都在 root 的左子树中
+            } else if (root.val > q.val) {
+                // 遍历至左子节点
+                root = root.left;
+            } else {
+                break;
+            }
+        }
+        return root;
     }
 }

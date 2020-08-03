@@ -105,6 +105,7 @@ public class BackorderTraversal {
      */
     int val = -1;
     int longest = 0;
+
     public int longestUnivaluePath(TreeNode root) {
         if (root == null) {
             return 0;
@@ -118,5 +119,32 @@ public class BackorderTraversal {
         }
         longestUnivaluePath(root.right);
         return longest;
+    }
+
+    /**
+     * 剑指 Offer 68 - II
+     * 二叉树的最近公共祖先
+     * <p>
+     * 剑指 Offer 68 - I
+     * 二叉搜索树的最近公共祖先
+     *
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left == null) {
+            return right;
+        }
+        if (right == null) {
+            return left;
+        }
+        return root;
     }
 }
