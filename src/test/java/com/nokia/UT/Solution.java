@@ -40,5 +40,9 @@ public class Solution {
         }
 //        System.out.println(this.twoSum(testArray, 13));
 //        System.out.println(this.twoSum(testArray, 26));
+        int n = 100;
+        for (int i = 0; i < n; i *= 2) {
+            System.out.println(i);
+        }
     }
 }
