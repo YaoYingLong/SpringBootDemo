@@ -7,6 +7,8 @@ import com.nokia.example.leetcode.tree.SearchTree;
 import com.nokia.example.leetcode.tree.TreeTraversal;
 import org.junit.Test;
 
+import java.util.Random;
+
 /**
  * @author by YingLong on 2020/7/30
  */
@@ -104,5 +106,17 @@ public class TreeTest {
             BackorderTraversal backorderTraversal = new BackorderTraversal();
             System.out.println(backorderTraversal.lowestCommonAncestor(node1, node4, node3));
         }
+    }
+
+    @Test
+    public void findTargetTest() {
+        SearchTree searchTree = new SearchTree();
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node4 = new TreeNode(4);
+        TreeNode node7 = new TreeNode(7);
+        TreeNode node3 = new TreeNode(3, node2, node4);
+        TreeNode node6 = new TreeNode(6, null, node7);
+        TreeNode node5 = new TreeNode(5, node3, node6);
+        searchTree.findTarget(node5, 9);
     }
 }

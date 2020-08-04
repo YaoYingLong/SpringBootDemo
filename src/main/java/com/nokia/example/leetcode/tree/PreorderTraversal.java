@@ -111,4 +111,29 @@ public class PreorderTraversal {
         t1.right = mergeTrees(t1.right, t2.right);
         return t1;
     }
+
+    /**
+     * 剑指 Offer 26
+     * 树的子结构
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (B == null || A == null) {
+            return false;
+        }
+        return isSubTree(A, B) || isSubStructure(A.left, B) || isSubStructure(A.right, B);
+    }
+
+    public boolean isSubTree(TreeNode A, TreeNode B) {
+        if (B == null) {
+            return true;
+        }
+        if (A == null || A.val != B.val) {
+            return false;
+        }
+        return isSubTree(A.left, B.left) && isSubTree(A.right, B.right);
+    }
 }

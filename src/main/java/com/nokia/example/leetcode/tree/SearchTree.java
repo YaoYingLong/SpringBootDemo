@@ -177,6 +177,7 @@ public class SearchTree {
      * @return
      */
     public List<Integer> differ = new ArrayList<>();
+
     public boolean findTarget(TreeNode root, int k) {
         if (root == null) {
             return false;
@@ -279,11 +280,11 @@ public class SearchTree {
     public int freq = 0;
     public int curFreq = 0;
     public Integer before;
-    public int[] ans = new int[1];
+    public int[] ans = new int[0];
 
     public int[] findMode(TreeNode root) {
         if (root == null) {
-            return null;
+            return ans;
         }
         findModeTrav(root);
         return ans;
@@ -295,21 +296,68 @@ public class SearchTree {
         }
         findModeTrav(root.left);
         if (before == null || before != root.val) {
-            if (curFreq > freq) {
-                freq = curFreq;
-                ans[0] = before;
-            }
             curFreq = 1;
             before = root.val;
-
         } else {
             curFreq++;
         }
-        if (freq == curFreq && freq != 0) {
-            ans = new int[ans.length + 1];
-            ans[ans.length - 1] = before;
+        if (curFreq > freq) {
+            freq = curFreq;
+            ans = new int[]{before};
+        } else if (freq == curFreq && freq != 0) {
+            int[] tmp = new int[ans.length + 1];
+            System.arraycopy(ans, 0, tmp, 0, ans.length);
+            tmp[ans.length] = before;
+            ans = tmp;
         }
         findModeTrav(root.right);
+    }
+
+    /**
+     * 669
+     * 修剪二叉搜索树
+     *
+     * @param root
+     * @param L
+     * @param R
+     * @return
+     */
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val > R) {
+            return trimBST(root.left, L, R);
+        }
+        if (root.val < L) {
+            return trimBST(root.right, L, R);
+        }
+        root.left = trimBST(root.left, L, R);
+        root.right = trimBST(root.right, L, R);
+        return root;
+    }
+
+    /**
+     * 230
+     * 二叉搜索树中第K小的元素
+     *
+     * @param root
+     * @param k
+     * @return
+     */
+    public int currentTh = 1;
+    public int kthSmallest(TreeNode root, int k) {
+        if (root == null) {
+            return -1;
+        }
+        int left = kthSmallest(root.left, k);
+        if (left != -1) {
+            return left;
+        }
+        if (k == currentTh++) {
+            return root.val;
+        }
+        return kthSmallest(root.right, k);
     }
 
 }

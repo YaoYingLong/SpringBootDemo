@@ -3,10 +3,7 @@ package com.nokia.example.leetcode.tree;
 import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -216,5 +213,42 @@ public class TreeTraversal {
             maxDepth = Math.max(maxDepth(node), maxDepth);
         }
         return maxDepth + 1;
+    }
+
+    /**
+     * 剑指 Offer 07
+     * 重建二叉树
+     * <p>
+     * 前序遍历 preorder = [3,9,20,15,7]
+     * 中序遍历 inorder = [9,3,15,20,7]
+     *
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (preorder == null || inorder == null || preorder.length == 0 || preorder.length != inorder.length) {
+            return null;
+        }
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            indexMap.put(inorder[i], i);
+        }
+        return buildTrav(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, indexMap);
+    }
+
+    public TreeNode buildTrav(int[] preorder, int preLeft, int preRight, int[] inorder, int inLeft, int inRight, Map<Integer, Integer> indexMap) {
+        if (preLeft > preRight) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[preLeft]);
+        if (preLeft == preRight) {
+            return root;
+        }
+        int rootIndex = indexMap.get(preorder[preLeft]);
+        int leftNodes = rootIndex - inLeft, rightNodes = inRight - rootIndex;
+        root.left = buildTrav(preorder, preLeft + 1, leftNodes + preLeft, inorder, inLeft, rootIndex - 1, indexMap);
+        root.right = buildTrav(preorder, preRight - rightNodes + 1, preRight, inorder, rootIndex + 1, inRight, indexMap);
+        return root;
     }
 }
