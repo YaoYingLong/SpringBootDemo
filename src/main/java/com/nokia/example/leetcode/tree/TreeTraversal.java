@@ -69,69 +69,6 @@ public class TreeTraversal {
         return Math.max(left, right) + 1;
     }
 
-    /**
-     * 二叉树的层次遍历
-     *
-     * @param root
-     * @return
-     */
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> resultList = new ArrayList<>();
-        if (root == null) {
-            return resultList;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            List<Integer> levelList = new ArrayList<>();
-            int len = queue.size();
-            for (int i = 0; i < len; i++) {
-                TreeNode treeNode = queue.poll();
-                if (treeNode.left != null) {
-                    queue.offer(treeNode.left);
-                }
-                if (treeNode.right != null) {
-                    queue.offer(treeNode.right);
-                }
-                levelList.add(treeNode.val);
-            }
-            resultList.add(levelList);
-        }
-        return resultList;
-    }
-
-
-    /**
-     * 107
-     * 二叉树的层次遍历 II
-     *
-     * @param root
-     * @return
-     */
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        List<List<Integer>> resultList = new ArrayList<>();
-        if (root == null) {
-            return resultList;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            List<Integer> levelList = new ArrayList<>();
-            int len = queue.size();
-            for (int i = 0; i < len; i++) {
-                TreeNode treeNode = queue.poll();
-                if (treeNode.left != null) {
-                    queue.offer(treeNode.left);
-                }
-                if (treeNode.right != null) {
-                    queue.offer(treeNode.right);
-                }
-                levelList.add(treeNode.val);
-            }
-            resultList.add(0, levelList);
-        }
-        return resultList;
-    }
 
     /**
      * 606
