@@ -12,6 +12,9 @@ public class SearchTree {
     /**
      * 面试题 17.12
      * BiNode
+     * <p>
+     * 897
+     * 递增顺序查找树
      */
     TreeNode cursor;
 
@@ -188,4 +191,125 @@ public class SearchTree {
         differ.add(root.val);
         return findTarget(root.right, k);
     }
+
+    /**
+     * 700
+     * 二叉搜索树中的搜索
+     *
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val == val) {
+            return root;
+        }
+        if (val < root.val) {
+            TreeNode left = searchBST(root.left, val);
+            if (left != null) {
+                return left;
+            }
+        } else {
+            return searchBST(root.right, val);
+        }
+        return null;
+    }
+
+    /**
+     * 938
+     * 二叉搜索树的范围和
+     *
+     * @param root
+     * @param L
+     * @param R
+     * @return
+     */
+    public int rangeSumBST(TreeNode root, int L, int R) {
+        if (root == null) {
+            return 0;
+        }
+        int left = rangeSumBST(root.left, L, R);
+        int right = rangeSumBST(root.right, L, R);
+        if (root.val >= L && root.val <= R) {
+            return root.val + left + right;
+        }
+        return left + right;
+    }
+
+    /**
+     * 783
+     * 二叉搜索树节点最小距离
+     * <p>
+     * 530
+     * 二叉搜索树的最小绝对差
+     *
+     * @param root
+     * @return
+     */
+    public int minDiff = Integer.MAX_VALUE;
+    public Integer beforeNodeVal;
+
+    public int minDiffInBST(TreeNode root) {
+        minDiffInBSTTrav(root);
+        return minDiff;
+    }
+
+    public void minDiffInBSTTrav(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        minDiffInBSTTrav(root.left);
+        if (beforeNodeVal != null) {
+            minDiff = Math.min(minDiff, root.val - beforeNodeVal);
+        }
+        beforeNodeVal = root.val;
+        minDiffInBSTTrav(root.right);
+    }
+
+    /**
+     * 501
+     * 二叉搜索树中的众数
+     *
+     * @param root
+     * @return
+     */
+    public int freq = 0;
+    public int curFreq = 0;
+    public Integer before;
+    public int[] ans = new int[1];
+
+    public int[] findMode(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        findModeTrav(root);
+        return ans;
+    }
+
+    public void findModeTrav(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        findModeTrav(root.left);
+        if (before == null || before != root.val) {
+            if (curFreq > freq) {
+                freq = curFreq;
+                ans[0] = before;
+            }
+            curFreq = 1;
+            before = root.val;
+
+        } else {
+            curFreq++;
+        }
+        if (freq == curFreq && freq != 0) {
+            ans = new int[ans.length + 1];
+            ans[ans.length - 1] = before;
+        }
+        findModeTrav(root.right);
+    }
+
 }
