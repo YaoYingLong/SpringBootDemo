@@ -2,10 +2,7 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author by YingLong on 2020/7/31
@@ -285,6 +282,67 @@ public class BfsTraversal {
         } else {
             insert(val, node.left, depth + 1, n);
             insert(val, node.right, depth + 1, n);
+        }
+    }
+
+    /**
+     * 863
+     * 二叉树中所有距离为 K 的结点
+     *
+     * @param root
+     * @param target
+     * @param K
+     * @return
+     */
+    public Map<TreeNode, TreeNode> parentMap = new HashMap<>();
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        parent(root, null);
+
+        Set<TreeNode> containSet = new HashSet<>();
+        containSet.add(target);
+        containSet.add(null);
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(target);
+        int depth = 0;
+        List<Integer> result = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                TreeNode node = queue.poll();
+                if (depth == K) {
+                    result.add(node.val);
+                }
+                if (!containSet.contains(node.left)) {
+                    containSet.add(node.left);
+                    queue.offer(node.left);
+                }
+                if (!containSet.contains(node.right)) {
+                    containSet.add(node.right);
+                    queue.offer(node.right);
+                }
+                TreeNode parent = parentMap.get(node);
+                if (!containSet.contains(parent)) {
+                    containSet.add(parent);
+                    queue.offer(parent);
+                }
+            }
+            if (depth == K) {
+                return result;
+            }
+            depth++;
+        }
+        return result;
+    }
+
+    public void parent(TreeNode node, TreeNode parentNode) {
+        if (node != null) {
+            parentMap.put(node, parentNode);
+            parent(node.left, node);
+            parent(node.right, node);
         }
     }
 }
