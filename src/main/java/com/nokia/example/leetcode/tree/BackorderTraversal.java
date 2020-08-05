@@ -2,8 +2,7 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author by YingLong on 2020/7/31
@@ -144,6 +143,70 @@ public class BackorderTraversal {
         }
         if (right == null) {
             return left;
+        }
+        return root;
+    }
+
+    /**
+     * 894
+     * 所有可能的满二叉树
+     *
+     * @param N
+     * @return
+     */
+    public Map<Integer, List<TreeNode>> cache = new HashMap<>();
+
+    public List<TreeNode> allPossibleFBT(int N) {
+        if (cache.containsKey(N)) {
+            return cache.get(N);
+        }
+        List<TreeNode> nNodeList = new ArrayList<>();
+        if (N % 2 != 1) {
+            return nNodeList;
+        }
+        if (N == 1) {
+            TreeNode node = new TreeNode(0);
+            nNodeList.add(node);
+        } else {
+            for (int x = 1; x < N; x++) {
+                int y = N - x - 1;
+                List<TreeNode> leftNodeList = allPossibleFBT(x);
+                List<TreeNode> rightNodeList = allPossibleFBT(y);
+                for (TreeNode leftNode : leftNodeList) {
+                    for (TreeNode rightNode : rightNodeList) {
+                        TreeNode node = new TreeNode(0);
+                        node.left = leftNode;
+                        node.right = rightNode;
+                        nNodeList.add(node);
+                    }
+                }
+            }
+        }
+        cache.put(N, nNodeList);
+        return nNodeList;
+    }
+
+    /**
+     * 814
+     * 二叉树剪枝
+     *
+     * @param root
+     * @return
+     */
+    public TreeNode pruneTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode left = pruneTree(root.left);
+        TreeNode right = pruneTree(root.right);
+        if (left == null) {
+            root.left = null;
+        }
+        if (right == null) {
+            root.right = null;
+        }
+        if (root.val == 0 && left == null && right == null) {
+            return null;
         }
         return root;
     }

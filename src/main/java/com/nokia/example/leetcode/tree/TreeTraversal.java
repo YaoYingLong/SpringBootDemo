@@ -3,7 +3,10 @@ package com.nokia.example.leetcode.tree;
 import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -187,5 +190,34 @@ public class TreeTraversal {
         root.left = buildTrav(preorder, preLeft + 1, leftNodes + preLeft, inorder, inLeft, rootIndex - 1, indexMap);
         root.right = buildTrav(preorder, preRight - rightNodes + 1, preRight, inorder, rootIndex + 1, inRight, indexMap);
         return root;
+    }
+
+    /**
+     * 1145
+     * 二叉树着色游戏
+     *
+     * @param root
+     * @param n
+     * @param x
+     * @return
+     */
+    int leftNum = 0, rightNum = 0;
+    public boolean btreeGameWinningMove(TreeNode root, int n, int x) {
+        backorder1145(root, x);
+        int half = n / 2;
+        return leftNum > half || rightNum > half || leftNum + rightNum < half;
+    }
+
+    public int backorder1145(TreeNode root, int x) {
+        if (root == null) {
+            return 0;
+        }
+        int left = backorder1145(root.left, x);
+        int right = backorder1145(root.right, x);
+        if (root.val == x) {
+            leftNum = left;
+            rightNum = right;
+        }
+        return left + right + 1;
     }
 }

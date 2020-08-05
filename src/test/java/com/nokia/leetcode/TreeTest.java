@@ -7,8 +7,6 @@ import com.nokia.example.leetcode.tree.SearchTree;
 import com.nokia.example.leetcode.tree.TreeTraversal;
 import org.junit.Test;
 
-import java.util.Random;
-
 /**
  * @author by YingLong on 2020/7/30
  */

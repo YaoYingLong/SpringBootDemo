@@ -2,7 +2,6 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -18,7 +17,7 @@ public class TreeBaseTraversal {
         if (treeNode == null) {
             return;
         }
-        System.out.println(treeNode);
+        System.out.print(treeNode.val);
         preOrder(treeNode.left);
         preOrder(treeNode.right);
     }
@@ -31,7 +30,7 @@ public class TreeBaseTraversal {
         stack.push(root);
         while (!stack.isEmpty()) {
             TreeNode tree = stack.pop();
-            System.out.println(tree);
+            System.out.print(tree.val);
             if (tree.right != null) {
                 stack.push(tree.right);
             }
@@ -49,7 +48,7 @@ public class TreeBaseTraversal {
             return;
         }
         inOrder(treeNode.left);
-        System.out.println(treeNode);
+        System.out.print(treeNode.val);
         inOrder(treeNode.right);
     }
 
@@ -57,17 +56,16 @@ public class TreeBaseTraversal {
      * 深度优先遍历——中序非递归遍历
      */
     public void inOrderDfs(TreeNode root) {
-        Deque<TreeNode> stack = new LinkedList<>();
-        stack.push(root);
-        TreeNode currentNode = root;
-        while (currentNode != null && !stack.isEmpty()) {
-            while (currentNode != null) {
-                stack.push(currentNode);
-                currentNode = currentNode.left;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
             }
-            currentNode = stack.pop();
-            System.out.print(currentNode);
-            currentNode = currentNode.right;
+            node = stack.pop();
+            System.out.print(node.val);
+            node = node.right;
         }
     }
 
@@ -80,7 +78,7 @@ public class TreeBaseTraversal {
         }
         backOrder(treeNode.left);
         backOrder(treeNode.right);
-        System.out.println(treeNode);
+        System.out.print(treeNode.val);
     }
 
     /**
@@ -88,17 +86,16 @@ public class TreeBaseTraversal {
      */
     public void backOrderDfs(TreeNode root) {
         Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
         TreeNode currentNode = root;
-        TreeNode right = null;
-        while (currentNode != null && !stack.isEmpty()) {
+        while (currentNode != null || !stack.isEmpty()) {
             while (currentNode != null) {
                 stack.push(currentNode);
                 currentNode = currentNode.left;
             }
             currentNode = stack.pop();
+            TreeNode right = null;
             while (currentNode.right == null || currentNode.right == right) {
-                System.out.print(currentNode);
+                System.out.print(currentNode.val);
                 right = currentNode;
                 if (stack.isEmpty()) {
                     return;
@@ -107,6 +104,27 @@ public class TreeBaseTraversal {
             }
             stack.push(currentNode);
             currentNode = currentNode.right;
+        }
+    }
+
+    public void backOrderDfsV2(TreeNode root) {
+        TreeNode node = root;
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> markStack = new Stack<>();
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            while (!markStack.isEmpty() && markStack.peek() == stack.peek()) {
+                markStack.pop();
+                System.out.print(stack.pop().val);
+            }
+            if (!stack.isEmpty()) {
+                node = stack.peek();
+                markStack.push(node);
+                node = node.right;
+            }
         }
     }
 
@@ -124,7 +142,7 @@ public class TreeBaseTraversal {
             if (tree.right != null) {
                 queue.offer(tree.right);
             }
-            System.out.println(tree);
+            System.out.print(tree.val);
         }
     }
 }

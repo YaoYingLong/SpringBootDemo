@@ -295,6 +295,7 @@ public class BfsTraversal {
      * @return
      */
     public Map<TreeNode, TreeNode> parentMap = new HashMap<>();
+
     public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
         if (root == null) {
             return new ArrayList<>();
@@ -315,6 +316,7 @@ public class BfsTraversal {
                 TreeNode node = queue.poll();
                 if (depth == K) {
                     result.add(node.val);
+                    continue;
                 }
                 if (!containSet.contains(node.left)) {
                     containSet.add(node.left);
@@ -344,5 +346,73 @@ public class BfsTraversal {
             parent(node.left, node);
             parent(node.right, node);
         }
+    }
+
+    /**
+     * 199
+     * 二叉树的右视图
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            for (int i = len; i > 0; i--) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                if (i == 1) {
+                    resultList.add(node.val);
+                }
+            }
+        }
+        return resultList;
+    }
+
+    /**
+     * 103
+     * 二叉树的锯齿形层次遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            List<Integer> subResultList = new ArrayList<>();
+            for (int i = 0; i < len; i++) {
+                TreeNode node = queue.poll();
+                if (resultList.size() % 2 == 0) {
+                    subResultList.add(node.val);
+                } else {
+                    subResultList.add(0, node.val);
+                }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+            resultList.add(subResultList);
+        }
+        return resultList;
     }
 }
