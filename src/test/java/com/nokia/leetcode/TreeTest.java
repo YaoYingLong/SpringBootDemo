@@ -117,4 +117,12 @@ public class TreeTest {
         TreeNode node5 = new TreeNode(5, node3, node6);
         searchTree.findTarget(node5, 9);
     }
+
+    @Test
+    public void buildTreeTest() {
+        int[] preorder = {3,9,8,5,4,10,1,2,6,11,20,15,7};
+        int[] inorder = {4,5,8,1,10,2,11,6,9,3,15,20,7};
+        TreeTraversal treeTraversal = new TreeTraversal();
+        treeTraversal.buildTreeV2(preorder, inorder);
+    }
 }

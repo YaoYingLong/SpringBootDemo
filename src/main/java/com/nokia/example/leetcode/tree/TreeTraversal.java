@@ -3,10 +3,7 @@ package com.nokia.example.leetcode.tree;
 import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -174,10 +171,10 @@ public class TreeTraversal {
         for (int i = 0; i < inorder.length; i++) {
             indexMap.put(inorder[i], i);
         }
-        return buildTrav(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, indexMap);
+        return buildTrav(preorder, 0, preorder.length - 1, 0, indexMap);
     }
 
-    public TreeNode buildTrav(int[] preorder, int preLeft, int preRight, int[] inorder, int inLeft, int inRight, Map<Integer, Integer> indexMap) {
+    public TreeNode buildTrav(int[] preorder, int preLeft, int preRight, int inLeft, Map<Integer, Integer> indexMap) {
         if (preLeft > preRight) {
             return null;
         }
@@ -186,9 +183,39 @@ public class TreeTraversal {
             return root;
         }
         int rootIndex = indexMap.get(preorder[preLeft]);
-        int leftNodes = rootIndex - inLeft, rightNodes = inRight - rootIndex;
-        root.left = buildTrav(preorder, preLeft + 1, leftNodes + preLeft, inorder, inLeft, rootIndex - 1, indexMap);
-        root.right = buildTrav(preorder, preRight - rightNodes + 1, preRight, inorder, rootIndex + 1, inRight, indexMap);
+        int leftNodes = rootIndex - inLeft;
+        root.left = buildTrav(preorder, preLeft + 1, leftNodes + preLeft, inLeft, indexMap);
+        root.right = buildTrav(preorder, preLeft + leftNodes + 1, preRight, rootIndex + 1, indexMap);
+        return root;
+    }
+
+    /**
+     * preorder = [3, 9, 8, 5, 4, 10, 20, 15, 7]
+     * inorder = [4, 5, 8, 10, 9, 3, 15, 20, 7]
+     */
+    public TreeNode buildTreeV2(int[] preorder, int[] inorder) {
+        if (preorder == null || inorder == null || preorder.length == 0 || preorder.length != inorder.length) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[0]);
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        int inorderIndex = 0;
+        for (int i = 1; i < preorder.length; i++) {
+            int preorderVal = preorder[i];
+            TreeNode node = stack.peek();
+            if (node.val != inorder[inorderIndex]) {
+                node.left = new TreeNode(preorderVal);
+                stack.push(node.left);
+            } else {
+                if (!stack.isEmpty() && stack.peek().val == inorder[inorderIndex]) {
+                    node = stack.pop();
+                    inorderIndex++;
+                }
+                node.right = new TreeNode(preorderVal);
+                stack.push(node.right);
+            }
+        }
         return root;
     }
 
