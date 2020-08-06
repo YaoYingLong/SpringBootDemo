@@ -1,5 +1,6 @@
 package com.nokia.example.leetcode.tree;
 
+import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
 import java.util.*;
@@ -412,6 +413,62 @@ public class BfsTraversal {
                 }
             }
             resultList.add(subResultList);
+        }
+        return resultList;
+    }
+
+    /**
+     * 958
+     * 二叉树的完全性检验
+     *
+     * @param root
+     * @return
+     */
+    public boolean isCompleteTree(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int k = 0;
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                TreeNode node = queue.poll();
+                if (node == null) {
+                    k = 1;
+                    continue;
+                }
+                if (k == 1 && node != null) {
+                    return false;
+                }
+                queue.offer(node.left);
+                queue.offer(node.right);
+            }
+        }
+        return true;
+    }
+
+    public List<List<Integer>> levelOrder(NTreeNode root) {
+        List<List<Integer>> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        Queue<NTreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            List<Integer> subList = new ArrayList<>();
+            for (int i = 0; i < len; i++) {
+                NTreeNode nTreeNode = queue.poll();
+                subList.add(nTreeNode.value);
+                for (NTreeNode node : nTreeNode.nodes) {
+                    if (node != null) {
+                        queue.offer(node);
+                    }
+                }
+            }
+            resultList.add(subList);
         }
         return resultList;
     }

@@ -4,6 +4,7 @@ import com.nokia.example.leetcode.entity.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * @author by YingLong on 2020/7/30
@@ -346,6 +347,7 @@ public class SearchTree {
      * @return
      */
     public int currentTh = 1;
+
     public int kthSmallest(TreeNode root, int k) {
         if (root == null) {
             return -1;
@@ -360,4 +362,55 @@ public class SearchTree {
         return kthSmallest(root.right, k);
     }
 
+
+    /**
+     * 面试题 04.05
+     * 合法二叉搜索树
+     *
+     * @param root
+     * @return
+     */
+    public Integer min;
+
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        boolean left = isValidBST(root.left);
+        if (!left) {
+            return false;
+        }
+        if (min == null) {
+            min = root.val;
+        } else if (root.val > min) {
+            min = root.val;
+        } else {
+            return false;
+        }
+        return isValidBST(root.right);
+    }
+
+    public boolean isValidBSTDfs(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.add(node);
+                node = node.left;
+            }
+            node = stack.pop();
+            if (min == null) {
+                min = node.val;
+            } else if (node.val > min) {
+                min = node.val;
+            } else {
+                return false;
+            }
+            node = node.right;
+        }
+        return true;
+    }
 }

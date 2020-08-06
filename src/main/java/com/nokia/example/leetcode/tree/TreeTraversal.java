@@ -202,6 +202,7 @@ public class TreeTraversal {
      * @return
      */
     int leftNum = 0, rightNum = 0;
+
     public boolean btreeGameWinningMove(TreeNode root, int n, int x) {
         backorder1145(root, x);
         int half = n / 2;
@@ -220,4 +221,75 @@ public class TreeTraversal {
         }
         return left + right + 1;
     }
+
+    /**
+     * 面试题 04.10
+     * 检查子树
+     *
+     * @param t1
+     * @param t2
+     * @return
+     */
+    public boolean checkSubTree(TreeNode t1, TreeNode t2) {
+        if (t1 == null) {
+            return false;
+        }
+        return isSameTree(t1, t2) || checkSubTree(t1.left, t2) || checkSubTree(t1.right, t2);
+    }
+
+    public boolean isSameTree(TreeNode t1, TreeNode t2) {
+        if (t1 == null && t2 == null) {
+            return true;
+        }
+        if (t1 == null || t2 == null) {
+            return false;
+        }
+        if (t1.val != t2.val) {
+            return false;
+        }
+        return isSameTree(t1.left, t2.left) && isSameTree(t1.right, t2.right);
+    }
+
+    /**
+     * 222
+     * 完全二叉树的节点个数
+     *
+     * @param root
+     * @return
+     */
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = countNodes(root.left);
+        int right = countNodes(root.right);
+        return left + right + 1;
+    }
+
+    /**
+     * 1448
+     * 统计二叉树中好节点的数目
+     *
+     * @param root
+     * @return
+     */
+    public int count = 0;
+
+    public int goodNodes(TreeNode root) {
+        traversal1448(root, Integer.MIN_VALUE);
+        return count;
+    }
+
+    public void traversal1448(TreeNode root, int max) {
+        if (root == null) {
+            return;
+        }
+        if (root.val >= max) {
+            max = root.val;
+            count++;
+        }
+        traversal1448(root.left, max);
+        traversal1448(root.right, max);
+    }
+
 }
