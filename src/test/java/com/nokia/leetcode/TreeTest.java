@@ -1,10 +1,7 @@
 package com.nokia.leetcode;
 
 import com.nokia.example.leetcode.entity.TreeNode;
-import com.nokia.example.leetcode.tree.BackorderTraversal;
-import com.nokia.example.leetcode.tree.BfsTraversal;
-import com.nokia.example.leetcode.tree.SearchTree;
-import com.nokia.example.leetcode.tree.TreeTraversal;
+import com.nokia.example.leetcode.tree.*;
 import org.junit.Test;
 
 /**
@@ -122,7 +119,22 @@ public class TreeTest {
     public void buildTreeTest() {
         int[] preorder = {3,9,8,5,4,10,1,2,6,11,20,15,7};
         int[] inorder = {4,5,8,1,10,2,11,6,9,3,15,20,7};
-        TreeTraversal treeTraversal = new TreeTraversal();
-        treeTraversal.buildTreeV2(preorder, inorder);
+        ConstructTree constructTree = new ConstructTree();
+        constructTree.buildTreeFromPreInV2(preorder, inorder);
+    }
+
+    @Test
+    public void bstFromPreorderTest() {
+        int[] preorder = {8,5,1,7,10,12};
+        PreorderTraversal preorderTraversal = new PreorderTraversal();
+        preorderTraversal.bstFromPreorderV2(preorder);
+    }
+
+    @Test
+    public void buildTreeByInAndPostTest() {
+        int[] inorder = {9,3,15,20,7};
+        int[] postorder = {9,15,7,20,3};
+        ConstructTree constructTree = new ConstructTree();
+        constructTree.buildTreeFromInPost(inorder, postorder);
     }
 }

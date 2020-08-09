@@ -2,6 +2,11 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.TreeNode;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 /**
  * 前序遍历相关的题
  *
@@ -135,5 +140,141 @@ public class PreorderTraversal {
             return false;
         }
         return isSubTree(A.left, B.left) && isSubTree(A.right, B.right);
+    }
+
+    /**
+     * 1008
+     * 先序遍历构造二叉树
+     *
+     * @param preorder
+     * @return
+     */
+    public TreeNode bstFromPreorder(int[] preorder) {
+        if (preorder == null || preorder.length == 0) {
+            return null;
+        }
+        int[] inorder = Arrays.copyOf(preorder, preorder.length);
+        Arrays.sort(inorder);
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            indexMap.put(inorder[i], i);
+        }
+        return generateTree(preorder, 0, preorder.length - 1, 0, indexMap);
+    }
+
+    public TreeNode generateTree(int[] preorder, int preLeft, int preRight, int inLeft, Map<Integer, Integer> indexMap) {
+        if (preLeft > preRight) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[preLeft]);
+        if (preLeft == preRight) {
+            return root;
+        }
+        int rootIndex = indexMap.get(root.val);
+        int leftNodes = rootIndex - inLeft;
+        root.left = generateTree(preorder, preLeft + 1, preLeft + leftNodes, inLeft, indexMap);
+        root.right = generateTree(preorder, preLeft + leftNodes + 1, preRight, rootIndex + 1, indexMap);
+        return root;
+    }
+
+    public TreeNode bstFromPreorderV2(int[] preorder) {
+        if (preorder == null || preorder.length == 0) {
+            return null;
+        }
+        int[] inorder = Arrays.copyOf(preorder, preorder.length);
+        Arrays.sort(inorder);
+        TreeNode root = new TreeNode(preorder[0]);
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        int inorderIndex = 0;
+        for (int i = 1; i < preorder.length; i++) {
+            int preVal = preorder[i];
+            TreeNode node = stack.peek();
+            if (node.val != inorder[inorderIndex]) {
+                node.left = new TreeNode(preVal);
+                stack.push(node.left);
+            } else {
+                while (!stack.isEmpty() && stack.peek().val == inorder[inorderIndex]) {
+                    node = stack.pop();
+                    inorderIndex++;
+                }
+                node.right = new TreeNode(preVal);
+                stack.push(node.right);
+            }
+        }
+        return root;
+    }
+
+    public int index = 0;
+
+    public TreeNode bstFromPreorderV3(int[] preorder) {
+        if (preorder == null || preorder.length == 0) {
+            return null;
+        }
+        return generateTreeV3(preorder, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    public TreeNode generateTreeV3(int[] preorder, int lower, int upper) {
+        if (index == preorder.length) {
+            return null;
+        }
+        int rootVal = preorder[index];
+        if (rootVal > upper || rootVal < lower) {
+            return null;
+        }
+        index++;
+        TreeNode root = new TreeNode(rootVal);
+        root.left = generateTreeV3(preorder, lower, rootVal);
+        root.right = generateTreeV3(preorder, rootVal, upper);
+        return root;
+    }
+
+    public TreeNode bstFromPreorderV4(int[] preorder) {
+        if (preorder == null || preorder.length == 0) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[0]);
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        for (int i = 1; i < preorder.length; i++) {
+            TreeNode node = stack.peek();
+            TreeNode child = new TreeNode(preorder[i]);
+            while (!stack.isEmpty() && stack.peek().val < child.val) {
+                node = stack.pop();
+            }
+            if (node.val > child.val) {
+                node.left = child;
+            } else {
+                node.right = child;
+            }
+            stack.push(child);
+        }
+        return root;
+    }
+
+    /**
+     *
+     * @param root
+     * @return
+     */
+    private int maxDepth = -1;
+    private int total = 0;
+    public int deepestLeavesSum(TreeNode root) {
+        deepestLeavesSumDfs(root, 0);
+        return total;
+    }
+
+    public void deepestLeavesSumDfs(TreeNode root, int depth) {
+        if (root == null) {
+            return;
+        }
+        if (depth > maxDepth) {
+            maxDepth = depth;
+            total = root.val;
+        } else if (depth == maxDepth){
+            total += root.val;
+        }
+        deepestLeavesSumDfs(root.left, depth + 1);
+        deepestLeavesSumDfs(root.right, depth + 1);
     }
 }
