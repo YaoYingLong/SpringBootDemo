@@ -333,4 +333,66 @@ public class TreeTraversal {
         return del;
     }
 
+    /**
+     * 面试题 04.08
+     * 首个共同祖先
+     *
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        if (left != null) {
+            return left;
+        }
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (right != null) {
+            return right;
+        }
+        if (lowestCommonAncestorDfs(root, p, q) > 1) {
+            return root;
+        }
+        return null;
+    }
+
+    public int lowestCommonAncestorDfs(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return 0;
+        }
+        int left = lowestCommonAncestorDfs(root.left, p, q);
+        int right = lowestCommonAncestorDfs(root.right, p, q);
+        if (root.val == p.val) {
+            left++;
+        }
+        if (root.val == q.val) {
+            left++;
+        }
+        return left + right;
+    }
+
+    public TreeNode lowestCommonAncestorV2(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root == p || root == q) {
+            return root;
+        }
+
+        TreeNode left = lowestCommonAncestorV2(root.left, p, q);
+        TreeNode right = lowestCommonAncestorV2(root.right, p, q);
+        if (left != null && right != null) {
+            return root;
+        }
+        if (left == null) {
+            return right;
+        }
+        return left;
+    }
 }

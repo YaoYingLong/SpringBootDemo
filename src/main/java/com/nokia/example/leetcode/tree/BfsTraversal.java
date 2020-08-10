@@ -2,7 +2,6 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
-import jdk.nashorn.internal.objects.NativeUint8Array;
 
 import java.util.*;
 
@@ -477,6 +476,7 @@ public class BfsTraversal {
     /**
      * 1302
      * 层数最深叶子节点的和
+     *
      * @param root
      * @return
      */
@@ -503,5 +503,31 @@ public class BfsTraversal {
             result = levelResult;
         }
         return result;
+    }
+
+    /**
+     * 513
+     * 找树左下角的值
+     *
+     * @param root
+     * @return
+     */
+    public int findBottomLeftValue(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        TreeNode node = null;
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                node = queue.poll();
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+            }
+        }
+        return node.val;
     }
 }
