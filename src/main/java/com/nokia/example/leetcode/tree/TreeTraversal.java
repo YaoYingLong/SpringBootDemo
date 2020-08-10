@@ -3,7 +3,10 @@ package com.nokia.example.leetcode.tree;
 import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -255,6 +258,7 @@ public class TreeTraversal {
     /**
      * 1110
      * 删点成林
+     *
      * @param root
      * @param to_delete
      * @return
@@ -264,37 +268,69 @@ public class TreeTraversal {
         if (root == null) {
             return nodeList;
         }
-        nodeList.add(root);
+        List<Integer> deleteList = new ArrayList<>();
+        for (int val : to_delete) {
+            deleteList.add(val);
+        }
+        if (!deleteList.contains(root.val)) {
+            nodeList.add(root);
+        }
+        nodeList.addAll(delSubNodes(root, null, deleteList, null));
         return nodeList;
     }
 
-    public List<TreeNode> delSubNodes(TreeNode root, int[] to_delete) {
+
+    public List<TreeNode> delSubNodes(TreeNode root, TreeNode parent, List<Integer> deleteList, Boolean isLeft) {
         List<TreeNode> nodeList = new ArrayList<>();
         if (root == null) {
             return nodeList;
         }
-        if (root.left != null) {
-            if (Arrays.asList(to_delete).contains(root.left.val)) {
-                if (root.left.left != null) {
-                    nodeList.add(root.left.left);
-                }
-                if (root.left.right != null) {
-                    nodeList.add(root.left.right);
-                }
-                root.left = null;
+        nodeList.addAll(delSubNodes(root.left, root, deleteList, true));
+        nodeList.addAll(delSubNodes(root.right, root, deleteList, false));
+        if (deleteList.contains(root.val)) {
+            if (root.left != null) {
+                nodeList.add(root.left);
             }
-        }
-        if (root.right != null) {
-            if (Arrays.asList(to_delete).contains(root.right.val)) {
-                if (root.right.left != null) {
-                    nodeList.add(root.right.left);
+            if (root.right != null) {
+                nodeList.add(root.right);
+            }
+            if (isLeft != null) {
+                if (isLeft) {
+                    parent.left = null;
+                } else {
+                    parent.right = null;
                 }
-                if (root.right.right != null) {
-                    nodeList.add(root.right.right);
-                }
-                root.right = null;
             }
         }
         return nodeList;
     }
+
+    public List<TreeNode> delNodesV2(TreeNode root, int[] to_delete) {
+        List<TreeNode> nodeList = new ArrayList<>();
+        List<Integer> deleteList = new ArrayList<>();
+        for (int val : to_delete) {
+            deleteList.add(val);
+        }
+        delSubNodesV2(root, nodeList, deleteList, false);
+        return nodeList;
+    }
+
+    public boolean delSubNodesV2(TreeNode root, List<TreeNode> nodeList, List<Integer> deleteList, boolean parentExists) {
+        boolean del;
+        if (root == null) {
+            return false;
+        }
+        del = deleteList.contains(root.val);
+        if (delSubNodesV2(root.left, nodeList, deleteList, !del)) {
+            root.left = null;
+        }
+        if (delSubNodesV2(root.right, nodeList, deleteList, !del)) {
+            root.right = null;
+        }
+        if (!del && !parentExists) {
+            nodeList.add(root);
+        }
+        return del;
+    }
+
 }

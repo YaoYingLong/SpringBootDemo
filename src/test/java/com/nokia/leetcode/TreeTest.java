@@ -34,6 +34,7 @@ public class TreeTest {
         TreeNode result = searchTree.increasingBST(node5);
 
     }
+
     @Test
     public void findSecondMinimumValueTest() {
         TreeNode node1 = new TreeNode(2);
@@ -117,24 +118,65 @@ public class TreeTest {
 
     @Test
     public void buildTreeTest() {
-        int[] preorder = {3,9,8,5,4,10,1,2,6,11,20,15,7};
-        int[] inorder = {4,5,8,1,10,2,11,6,9,3,15,20,7};
+        int[] preorder = {3, 9, 8, 5, 4, 10, 1, 2, 6, 11, 20, 15, 7};
+        int[] inorder = {4, 5, 8, 1, 10, 2, 11, 6, 9, 3, 15, 20, 7};
         ConstructTree constructTree = new ConstructTree();
         constructTree.buildTreeFromPreInV2(preorder, inorder);
     }
 
     @Test
     public void bstFromPreorderTest() {
-        int[] preorder = {8,5,1,7,10,12};
+        int[] preorder = {8, 5, 1, 7, 10, 12};
         PreorderTraversal preorderTraversal = new PreorderTraversal();
         preorderTraversal.bstFromPreorderV2(preorder);
     }
 
     @Test
     public void buildTreeByInAndPostTest() {
-        int[] inorder = {9,3,15,20,7};
-        int[] postorder = {9,15,7,20,3};
+        int[] inorder = {9, 3, 15, 20, 7};
+        int[] postorder = {9, 15, 7, 20, 3};
         ConstructTree constructTree = new ConstructTree();
         constructTree.buildTreeFromInPost(inorder, postorder);
+    }
+
+    @Test
+    public void delNodesTest() {
+        TreeTraversal treeTraversal = new TreeTraversal();
+//        {
+//            TreeNode node4 = new TreeNode(4);
+//            TreeNode node5 = new TreeNode(5);
+//            TreeNode node6 = new TreeNode(6);
+//            TreeNode node7 = new TreeNode(7);
+//            TreeNode node3 = new TreeNode(3, node6, node7);
+//            TreeNode node2 = new TreeNode(2, node4, node5);
+//            TreeNode node1 = new TreeNode(1, node2, node3);
+//
+//            int[] to_delete = new int[]{3, 5};
+//            treeTraversal.delNodes(node1, to_delete);
+//        }
+//        {
+//            TreeNode node4 = new TreeNode(4);
+//            TreeNode node3 = new TreeNode(3, null, node4);
+//            TreeNode node2 = new TreeNode(2, null, node3);
+//            TreeNode node1 = new TreeNode(1, null, node2);
+//            int[] to_delete = new int[]{3};
+//            treeTraversal.delNodes(node1, to_delete);
+//        }
+//        {
+//            TreeNode node4 = new TreeNode(4);
+//            TreeNode node3 = new TreeNode(3);
+//            TreeNode node2 = new TreeNode(2, node4, node3);
+//            TreeNode node1 = new TreeNode(1, node2, null);
+//            int[] to_delete = new int[]{2, 3};
+//            treeTraversal.delNodes(node1, to_delete);
+//        }
+        {
+            TreeNode node4 = new TreeNode(4);
+            TreeNode node3 = new TreeNode(3, null, node4);
+            TreeNode node2 = new TreeNode(2);
+            TreeNode node1 = new TreeNode(1, node2, node3);
+            int[] to_delete = new int[]{2, 1};
+            treeTraversal.delNodes(node1, to_delete);
+        }
     }
 }
