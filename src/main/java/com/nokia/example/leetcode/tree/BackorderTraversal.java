@@ -126,7 +126,9 @@ public class BackorderTraversal {
      * <p>
      * 剑指 Offer 68 - I
      * 二叉搜索树的最近公共祖先
-     *
+     * <p>
+     * 面试题 04.08
+     * 首个共同祖先
      * @param root
      * @param p
      * @param q
