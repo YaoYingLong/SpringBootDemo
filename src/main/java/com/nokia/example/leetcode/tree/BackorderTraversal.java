@@ -214,6 +214,7 @@ public class BackorderTraversal {
     /**
      * 1325
      * 删除给定值的叶子节点
+     *
      * @param root
      * @param target
      * @return
@@ -228,5 +229,43 @@ public class BackorderTraversal {
             return null;
         }
         return root;
+    }
+
+    /**
+     * 1379
+     * 找出克隆二叉树中的相同节点
+     *
+     * @param original
+     * @param cloned
+     * @param target
+     * @return
+     */
+    public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        if (cloned == null || target == null) {
+            return null;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = cloned;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            node = stack.pop();
+            TreeNode right = null;
+            while (node.right == null || node.right == right) {
+                if (node.val == target.val) {
+                    return node;
+                }
+                right = node;
+                if (stack.isEmpty()) {
+                    return null;
+                }
+                node = stack.pop();
+            }
+            stack.push(node);
+            node = node.right;
+        }
+        return null;
     }
 }

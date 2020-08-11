@@ -253,12 +253,12 @@ public class PreorderTraversal {
     }
 
     /**
-     *
      * @param root
      * @return
      */
     private int maxDepth = -1;
     private int total = 0;
+
     public int deepestLeavesSum(TreeNode root) {
         deepestLeavesSumDfs(root, 0);
         return total;
@@ -271,10 +271,95 @@ public class PreorderTraversal {
         if (depth > maxDepth) {
             maxDepth = depth;
             total = root.val;
-        } else if (depth == maxDepth){
+        } else if (depth == maxDepth) {
             total += root.val;
         }
         deepestLeavesSumDfs(root.left, depth + 1);
         deepestLeavesSumDfs(root.right, depth + 1);
+    }
+
+    /**
+     * @param root
+     */
+    public TreeNode cur = new TreeNode(0);
+
+    public void flatten(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        TreeNode leftNode = root.left;
+        TreeNode rightNode = root.right;
+        cur.left = null;
+        cur.right = root;
+        cur = root;
+        flatten(leftNode);
+        flatten(rightNode);
+    }
+
+    public void flattenV2(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        TreeNode ans = new TreeNode(0);
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            ans.left = null;
+            ans.right = node;
+            ans = node;
+            TreeNode left = node.left, right = node.right;
+            if (right != null) {
+                stack.push(right);
+            }
+            if (left != null) {
+                stack.push(left);
+            }
+        }
+    }
+
+    /**
+     * 1379
+     * 找出克隆二叉树中的相同节点
+     *
+     * @param original
+     * @param cloned
+     * @param target
+     * @return
+     */
+    public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        if (cloned == null || target == null) {
+            return null;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(cloned);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            if (node.val == target.val) {
+                return node;
+            }
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+        return null;
+    }
+
+    public final TreeNode getTargetCopyV2(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        if (cloned == null || target == null) {
+            return null;
+        }
+        if (cloned.val == target.val) {
+            return cloned;
+        }
+        TreeNode leftNode = getTargetCopy(original, cloned.left, target);
+        TreeNode rightNode = getTargetCopy(original, cloned.right, target);
+        if (leftNode == null) {
+            return rightNode;
+        }
+        return leftNode;
     }
 }

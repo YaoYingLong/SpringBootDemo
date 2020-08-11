@@ -4,6 +4,7 @@ import com.nokia.example.leetcode.entity.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * @author by YingLong on 2020/7/31
@@ -37,5 +38,34 @@ public class InorderTraversal {
         List<Integer> rightList = inorder1350(root.right);
         resultList.addAll(rightList);
         return resultList;
+    }
+
+    /**
+     * 1379
+     * 找出克隆二叉树中的相同节点
+     *
+     * @param original
+     * @param cloned
+     * @param target
+     * @return
+     */
+    public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        if (cloned == null || target == null) {
+            return null;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = cloned;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            node = stack.pop();
+            if (node.val == target.val) {
+                return node;
+            }
+            node = node.right;
+        }
+        return null;
     }
 }
