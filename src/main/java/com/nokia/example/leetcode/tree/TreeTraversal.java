@@ -331,4 +331,31 @@ public class TreeTraversal {
     }
 
 
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return null;
+        }
+        return maximumBinaryTreeDfs(nums, 0, nums.length);
+    }
+
+    public TreeNode maximumBinaryTreeDfs(int[] nums, int leftIndex, int rightIndex) {
+        if (leftIndex == rightIndex) {
+            return null;
+        }
+        int maxIndex = getMaxIndex(nums, leftIndex, rightIndex);
+        TreeNode root = new TreeNode(nums[maxIndex]);
+        root.left = maximumBinaryTreeDfs(nums, leftIndex, maxIndex);
+        root.right = maximumBinaryTreeDfs(nums, maxIndex + 1, rightIndex);
+        return root;
+    }
+
+    private int getMaxIndex(int[] nums, int leftIndex, int rightIndex) {
+        int maxIndex = leftIndex;
+        for (int i = leftIndex; i < rightIndex; i++) {
+            if (nums[maxIndex] < nums[i]) {
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
+    }
 }
