@@ -3,7 +3,10 @@ package com.nokia.example.leetcode.tree;
 import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -330,7 +333,13 @@ public class TreeTraversal {
         return del;
     }
 
-
+    /**
+     * 654
+     * 最大二叉树
+     *
+     * @param nums
+     * @return
+     */
     public TreeNode constructMaximumBinaryTree(int[] nums) {
         if (nums == null || nums.length == 0) {
             return null;

@@ -530,4 +530,49 @@ public class BfsTraversal {
         }
         return node.val;
     }
+
+    /**
+     * 面试题 04.03
+     * 特定深度节点链表
+     *
+     * @param tree
+     * @return
+     */
+    public ListNode[] listOfDepth(TreeNode tree) {
+        if (tree == null) {
+            return null;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(tree);
+        List<ListNode> listNodes = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            ListNode listNode = new ListNode(0);
+            ListNode cur = listNode;
+            for (int i = 0; i < len; i++) {
+                TreeNode node = queue.poll();
+                cur.next = new ListNode(node.val);
+                cur = cur.next;
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+            listNodes.add(listNode.next);
+        }
+        ListNode[] arrays = new ListNode[listNodes.size()];
+        listNodes.toArray(arrays);
+        return arrays;
+    }
+
+    class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
 }
