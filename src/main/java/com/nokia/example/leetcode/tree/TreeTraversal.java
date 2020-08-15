@@ -2,6 +2,7 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
+import com.sun.org.apache.regexp.internal.RE;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -333,5 +334,43 @@ public class TreeTraversal {
         return del;
     }
 
+    /**
+     * 1315
+     * 祖父节点值为偶数的节点和
+     * @param root
+     * @return
+     */
+    public int sumEvenGrandparent(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = sumEvenGrandparent(root.left);
+        int right = sumEvenGrandparent(root.right);
+        int result = right + left;
+        if (root.val % 2 == 0) {
+            if (root.left != null) {
+                result += root.left.left != null ? root.left.left.val : 0;
+                result += root.left.right != null ? root.left.right.val : 0;
+            }
+            if (root.right != null) {
+                result += root.right.left != null ? root.right.left.val : 0;
+                result += root.right.right != null ? root.right.right.val : 0;
+            }
+        }
+        return result;
+    }
 
+    public int sumEvenGrandparentV2(TreeNode root) {
+        return sumEvenGrandparentV2Dfs(root, 1, 1);
+    }
+
+    public int sumEvenGrandparentV2Dfs(TreeNode root, int gpVal, int pVal) {
+        if (root == null) {
+            return 0;
+        }
+
+        int left = sumEvenGrandparentV2Dfs(root.left, pVal, root.val);
+        int right = sumEvenGrandparentV2Dfs(root.right, pVal, root.val);
+        return gpVal % 2 == 0 ? root.val + left + right : right + left;
+    }
 }
