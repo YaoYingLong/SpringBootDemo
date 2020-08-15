@@ -413,4 +413,23 @@ public class SearchTree {
         }
         return true;
     }
+
+    /**
+     * 701
+     * 二叉搜索树中的插入操作
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode insertIntoBST701(TreeNode root, int val) {
+        if (root == null) {
+            return new TreeNode(val);
+        }
+        if (val > root.val) {
+            root.right = insertIntoBST701(root.right, val);
+        } else {
+            root.left = insertIntoBST701(root.left, val);
+        }
+        return root;
+    }
 }
