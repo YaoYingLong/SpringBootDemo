@@ -86,24 +86,24 @@ public class TreeBaseTraversal {
      */
     public void backOrderDfs(TreeNode root) {
         Stack<TreeNode> stack = new Stack<>();
-        TreeNode currentNode = root;
-        while (currentNode != null || !stack.isEmpty()) {
-            while (currentNode != null) {
-                stack.push(currentNode);
-                currentNode = currentNode.left;
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
             }
-            currentNode = stack.pop();
+            node = stack.pop();
             TreeNode right = null;
-            while (currentNode.right == null || currentNode.right == right) {
-                System.out.print(currentNode.val);
-                right = currentNode;
+            while (node.right == null || node.right == right) {
+                System.out.print(node.val);
+                right = node;
                 if (stack.isEmpty()) {
                     return;
                 }
-                currentNode = stack.pop();
+                node = stack.pop();
             }
-            stack.push(currentNode);
-            currentNode = currentNode.right;
+            stack.push(node);
+            node = node.right;
         }
     }
 
