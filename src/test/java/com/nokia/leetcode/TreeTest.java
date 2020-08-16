@@ -179,4 +179,14 @@ public class TreeTest {
             treeTraversal.delNodes(node1, to_delete);
         }
     }
+
+    @Test
+    public void testPow() {
+        System.out.println(2 ^ 0);
+        System.out.println(2 ^ 1);
+        System.out.println(2 ^ 2);
+        System.out.println(2 ^ 3);
+
+        System.out.println((int)(Math.log(7)/ Math.log(2)));
+    }
 }

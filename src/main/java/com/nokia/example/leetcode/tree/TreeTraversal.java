@@ -2,12 +2,8 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
-import com.sun.org.apache.regexp.internal.RE;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -372,6 +368,7 @@ public class TreeTraversal {
     /**
      * 1315
      * 祖父节点值为偶数的节点和
+     *
      * @param root
      * @return
      */
@@ -407,5 +404,24 @@ public class TreeTraversal {
         int left = sumEvenGrandparentV2Dfs(root.left, pVal, root.val);
         int right = sumEvenGrandparentV2Dfs(root.right, pVal, root.val);
         return gpVal % 2 == 0 ? root.val + left + right : right + left;
+    }
+
+    /**
+     * 1104
+     * 二叉树寻路
+     *
+     * @param label
+     * @return
+     */
+    public List<Integer> pathInZigZagTree(int label) {
+        int level = (int) (Math.log(label) / Math.log(2));
+        List<Integer> result = new ArrayList<>(level);
+        while (label > 1) {
+            result.add(label);
+            label = (int) (3 * Math.pow(2, --level) - label/2 - 1);
+        }
+        result.add(1);
+        Collections.reverse(result);
+        return result;
     }
 }
