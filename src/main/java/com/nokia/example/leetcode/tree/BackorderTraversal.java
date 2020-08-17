@@ -129,6 +129,7 @@ public class BackorderTraversal {
      * <p>
      * 面试题 04.08
      * 首个共同祖先
+     *
      * @param root
      * @param p
      * @param q
@@ -269,5 +270,28 @@ public class BackorderTraversal {
             node = node.right;
         }
         return null;
+    }
+
+    /**
+     * 979
+     * 在二叉树中分配硬币
+     *
+     * @param root
+     * @return
+     */
+    public int coins = 0;
+    public int distributeCoins(TreeNode root) {
+        distributeCoinsDfs(root);
+        return coins;
+    }
+
+    public int distributeCoinsDfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = distributeCoinsDfs(root.left);
+        int right = distributeCoinsDfs(root.right);
+        coins += Math.abs(left) + Math.abs(right);
+        return root.val + left + right - 1;
     }
 }
