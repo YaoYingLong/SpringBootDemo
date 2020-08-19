@@ -362,4 +362,48 @@ public class PreorderTraversal {
         }
         return leftNode;
     }
+
+    /**
+     * 1028
+     * 从先序遍历还原二叉树
+     *
+     * @param S
+     * @return
+     */
+    public TreeNode recoverFromPreorder(String S) {
+        if (S == null || S.length() == 0) {
+            return null;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        int index = 0;
+        while (index < S.length()) {
+            int level = 0;
+            while (S.charAt(index) == '-') {
+                ++level;
+                ++index;
+            }
+            int value = 0;
+            while (index < S.length() && Character.isDigit(S.charAt(index))) {
+                value = value * 10 + S.charAt(index) - '0';
+                ++index;
+            }
+            TreeNode node = new TreeNode(value);
+            if (level == stack.size()) {
+                if (!stack.isEmpty()) {
+                    stack.peek().left = node;
+                }
+            } else {
+                while (level != stack.size()) {
+                    stack.pop();
+                }
+                stack.peek().right = node;
+            }
+            stack.push(node);
+        }
+        while (stack.size() > 1) {
+            stack.pop();
+        }
+        return stack.peek();
+    }
+
 }

@@ -297,6 +297,75 @@ public class BackorderTraversal {
     }
 
     /**
+     * 145
+     * 二叉树的后序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        List<Integer> leftList = postorderTraversal(root.left);
+        List<Integer> rightList = postorderTraversal(root.right);
+        leftList.addAll(rightList);
+        leftList.add(root.val);
+        return leftList;
+    }
+
+    public List<Integer> postorderTraversalV2(TreeNode root) {
+        List<Integer> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            node = stack.pop();
+            TreeNode right = null;
+            while (node.right == null || node.right == right) {
+                resultList.add(node.val);
+                right = node;
+                if (stack.isEmpty()) {
+                    return resultList;
+                }
+                node = stack.pop();
+            }
+            stack.push(node);
+            node = node.right;
+        }
+        return resultList;
+    }
+
+    public List<Integer> postorderTraversalV3(TreeNode root) {
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        LinkedList<Integer> output = new LinkedList<>();
+        if (root == null) {
+            return output;
+        }
+
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pollLast();
+            output.addFirst(node.val);
+            if (node.left != null) {
+                stack.add(node.left);
+            }
+            if (node.right != null) {
+                stack.add(node.right);
+            }
+        }
+        return output;
+    }
+
+
+    /**
      * 95
      * 不同的二叉搜索树 II
      *
