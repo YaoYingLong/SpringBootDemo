@@ -181,12 +181,12 @@ public class TreeTest {
     }
 
     @Test
-    public void testPow() {
-        System.out.println(2 ^ 0);
-        System.out.println(2 ^ 1);
-        System.out.println(2 ^ 2);
-        System.out.println(2 ^ 3);
-
-        System.out.println((int)(Math.log(7)/ Math.log(2)));
+    public void lcaDeepestLeavesTest() {
+        TreeNode node4 = new TreeNode(4);
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node2 = new TreeNode(2, node4, null);
+        TreeNode node1 = new TreeNode(1, node2, node3);
+        TreeTraversal treeTraversal = new TreeTraversal();
+        treeTraversal.lcaDeepestLeaves(node1);
     }
 }

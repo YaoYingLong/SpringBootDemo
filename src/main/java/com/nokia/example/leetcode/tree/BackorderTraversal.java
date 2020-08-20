@@ -364,39 +364,4 @@ public class BackorderTraversal {
         return output;
     }
 
-
-    /**
-     * 95
-     * 不同的二叉搜索树 II
-     *
-     * @param n
-     * @return
-     */
-    public List<TreeNode> generateTrees(int n) {
-        if (n < 1) {
-            return new ArrayList<>();
-        }
-        return generateTreesDfs(1, n);
-    }
-
-    public List<TreeNode> generateTreesDfs(int start, int end) {
-        List<TreeNode> resultList = new ArrayList<>();
-        if (start > end) {
-            resultList.add(null);
-            return resultList;
-        }
-        for (int i = start; i <= end; i++) {
-            List<TreeNode> leftList = generateTreesDfs(start, i - 1);
-            List<TreeNode> rightList = generateTreesDfs(i + 1, end);
-            for (TreeNode left : leftList) {
-                for (TreeNode right : rightList) {
-                    TreeNode root = new TreeNode(i);
-                    root.left = left;
-                    root.right = right;
-                    resultList.add(root);
-                }
-            }
-        }
-        return resultList;
-    }
 }

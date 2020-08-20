@@ -4,6 +4,7 @@ import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -418,10 +419,38 @@ public class TreeTraversal {
         List<Integer> result = new ArrayList<>(level);
         while (label > 1) {
             result.add(label);
-            label = (int) (3 * Math.pow(2, --level) - label/2 - 1);
+            label = (int) (3 * Math.pow(2, --level) - label / 2 - 1);
         }
         result.add(1);
         Collections.reverse(result);
         return result;
+    }
+
+    /**
+     * 1123
+     * 最深叶节点的最近公共祖先
+     *
+     * @param root
+     * @return
+     */
+    public TreeNode lcaDeepestLeaves(TreeNode root) {
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        if (left > right) {
+            return lcaDeepestLeaves(root.left);
+        }
+        if (left < right) {
+            return lcaDeepestLeaves(root.right);
+        }
+        return root;
+    }
+
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        return Math.max(left, right) + 1;
     }
 }
