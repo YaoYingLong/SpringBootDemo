@@ -364,4 +364,43 @@ public class BackorderTraversal {
         return output;
     }
 
+    /**
+     * 508
+     * 出现次数最多的子树元素和
+     *
+     * @param root
+     * @return
+     */
+    public int[] findFrequentTreeSum(TreeNode root) {
+        if (root == null) {
+            return new int[0];
+        }
+        Map<Integer, Integer> sumMap = new HashMap<>();
+        subTreeSum(root, sumMap);
+        int maxDup = -1;
+        int[] ans = new int[1];
+        for (Integer val : sumMap.keySet()) {
+            int count = sumMap.get(val);
+            if (maxDup < count) {
+                maxDup = count;
+                ans = new int[]{val};
+            } else if (maxDup == count) {
+                int[] temp = new int[ans.length + 1];
+                System.arraycopy(ans, 0, temp, 0, ans.length);
+                temp[ans.length] = val;
+                ans = temp;
+            }
+        }
+        return ans;
+    }
+
+    public int subTreeSum(TreeNode root, Map<Integer, Integer> sumMap) {
+        if (root == null) {
+            return 0;
+        }
+        int left = subTreeSum(root.left, sumMap);
+        int right = subTreeSum(root.right, sumMap);
+        sumMap.merge(left + right + root.val, 1, Integer::sum);
+        return left + right + root.val;
+    }
 }
