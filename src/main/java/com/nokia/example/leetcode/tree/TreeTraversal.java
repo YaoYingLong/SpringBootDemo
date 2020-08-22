@@ -476,4 +476,29 @@ public class TreeTraversal {
         }
         return root;
     }
+
+    /**
+     * 1026
+     * 节点与其祖先之间的最大差值
+     *
+     * @param root
+     * @return
+     */
+    public int maxRes = -1;
+
+    public int maxAncestorDiff(TreeNode root) {
+        maxAncestorDiffDfs(root, root.val, root.val);
+        return maxRes;
+    }
+
+    public void maxAncestorDiffDfs(TreeNode root, int maxParent, int minParent) {
+        if (root == null) {
+            return;
+        }
+        maxParent = Math.max(root.val, maxParent);
+        minParent = Math.min(root.val, minParent);
+        maxRes = Math.max(maxRes, maxParent - minParent);
+        maxAncestorDiffDfs(root.left, maxParent, minParent);
+        maxAncestorDiffDfs(root.right, maxParent, minParent);
+    }
 }
