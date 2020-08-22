@@ -4,6 +4,9 @@ import com.nokia.example.leetcode.entity.TreeNode;
 import com.nokia.example.leetcode.tree.*;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author by YingLong on 2020/7/30
  */
@@ -188,5 +191,22 @@ public class TreeTest {
         TreeNode node1 = new TreeNode(1, node2, node3);
         TreeTraversal treeTraversal = new TreeTraversal();
         treeTraversal.lcaDeepestLeaves(node1);
+    }
+
+    @Test
+    public void pseudoPalindromicTest() {
+//        int n = 36;
+//        System.out.println(n & (n -1));
+        List<Integer> list = Arrays.asList(1, 2, 1, 3, 3, 3);
+        int v = 0;
+        for (Integer val : list) {
+            int k = 1 << val;
+            v ^= k;
+        }
+        if (v == 0 || (v & (v - 1)) == 0) {
+            System.out.println("1111");
+        }
+        System.out.println(v);
+        System.out.println(v & (v - 1));
     }
 }

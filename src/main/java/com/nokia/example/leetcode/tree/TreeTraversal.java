@@ -478,6 +478,113 @@ public class TreeTraversal {
     }
 
     /**
+     * 951
+     * 翻转等价二叉树
+     *
+     * @param root1
+     * @param root2
+     * @return
+     */
+    public boolean flipEquiv(TreeNode root1, TreeNode root2) {
+        if (root1 == null && root2 == null) {
+            return true;
+        }
+        if (root1 == null || root2 == null || root1.val != root2.val) {
+            return false;
+        }
+        boolean left = flipEquiv(root1.left, root2.right) || flipEquiv(root1.left, root2.left);
+        if (!left) {
+            return false;
+        }
+        return flipEquiv(root1.right, root2.left) || flipEquiv(root1.right, root2.right);
+    }
+
+    /**
+     * 129
+     * 求根到叶子节点数字之和
+     *
+     * @param root
+     * @return
+     */
+    public int sumNumbers(TreeNode root) {
+        return sumNumbersDfs(root, 0);
+    }
+
+    public int sumNumbersDfs(TreeNode root, int k) {
+        if (root == null) {
+            return 0;
+        }
+        k = k * 10 + root.val;
+        int left = sumNumbersDfs(root.left, k);
+        int right = sumNumbersDfs(root.right, k);
+        if (root.left == null && root.right == null) {
+            return k;
+        }
+        return left + right;
+    }
+
+    /**
+     * 1457
+     * 二叉树中的伪回文路径
+     *众所周知 n & (n - 1) 可以用来消除最后一个1
+     * 举例: 以下都是二进制表示
+     * 假设 n = 100100 那么 n - 1 = 100011 因为100 - 1 = 011
+     * 那么 n & (n - 1) = 100000 所以这是去掉了最后的一个1
+     *
+     * 因为异或的性质是 位相同异或为0 位不同异或为1 例如 1 ^ 1 = 0 ; 1 ^ 0 =1
+     * 然后比如 5 二进制为 1001 , 依据异或的性质 1001 ^ 1001 = 0
+     * 所以异或的性质就是两个相同的数 异或为0
+     *
+     * 然后回文串只会有两种情况 要么 1221 要么 121 所以异或后，要么是0 要么是个数为奇数的数字。
+     * 然后因为题目取值范围是1～9 所以可以用每一位代表一个数字。
+     * 比如5写成100000，这样哪怕是 121 这种情况 也只会剩下2 也就是100
+     * 这样我们就可以根据 n & (n - 1) 来消除1 所以判断是否为回文数字的条件就变成了
+     *
+     *
+     * (n == 0 || (n & (n - 1)) == 0)
+     * @param root
+     * @return
+     */
+    public int pseudoPalindromicPaths(TreeNode root) {
+        int count = 0;
+        List<LinkedList<Integer>> pathList = treePathsDfs(root);
+        for (LinkedList<Integer> path : pathList) {
+            int v = 0;
+            for (Integer val : path) {
+                v ^= 1 << val;
+            }
+            if (v == 0 || (v & (v - 1)) == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public List<LinkedList<Integer>> treePathsDfs(TreeNode root) {
+        List<LinkedList<Integer>> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        List<LinkedList<Integer>> leftList = treePathsDfs(root.left);
+        List<LinkedList<Integer>> rightList = treePathsDfs(root.right);
+        for (LinkedList<Integer> subList : leftList) {
+            subList.addFirst(root.val);
+        }
+        for (LinkedList<Integer> subList : rightList) {
+            subList.addFirst(root.val);
+        }
+        resultList.addAll(leftList);
+        resultList.addAll(rightList);
+        if (root.left == null && root.right == null) {
+            LinkedList<Integer> subList = new LinkedList<>();
+            subList.addFirst(root.val);
+            resultList.add(subList);
+        }
+        return resultList;
+    }
+
+
+    /**
      * 1026
      * 节点与其祖先之间的最大差值
      *
