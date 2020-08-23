@@ -2,10 +2,7 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * 前序遍历相关的题
@@ -404,6 +401,63 @@ public class PreorderTraversal {
             stack.pop();
         }
         return stack.peek();
+    }
+
+    /**
+     * 113
+     * 路径总和 II
+     *
+     * @param root
+     * @param sum
+     * @return
+     */
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        sum -= root.val;
+        List<List<Integer>> left = pathSum(root.left, sum);
+        List<List<Integer>> right = pathSum(root.right, sum);
+        for (List<Integer> subList : left) {
+            subList.add(0, root.val);
+        }
+        for (List<Integer> subList : right) {
+            subList.add(0, root.val);
+        }
+        if (root.left == null && root.right == null && sum == 0) {
+            List<Integer> subList = new ArrayList<>();
+            subList.add(root.val);
+            resultList.add(subList);
+            return resultList;
+        }
+        resultList.addAll(left);
+        resultList.addAll(right);
+        return resultList;
+    }
+
+    List<List<Integer>> res = new ArrayList();
+
+    public List<List<Integer>> pathSumV2(TreeNode root, int sum) {
+        // 定义一个有序list来存储路径
+        LinkedList<Integer> temp = new LinkedList<>();
+        helper(root, sum, temp);
+        return res;
+    }
+
+    public void helper(TreeNode node, int sum, LinkedList<Integer> temp) {
+        if (node == null) {
+            return;
+        }
+        // 记录路径
+        temp.addLast(node.val);
+        if (node.left == null && node.right == null && sum == node.val) {
+            res.add(new ArrayList(temp));
+        }
+        helper(node.left, sum - node.val, temp);
+        helper(node.right, sum - node.val, temp);
+        // 重点，遍历完后，需要把当前节点remove出去，因为用的是同一个list对象来存所有的路径
+        temp.removeLast();
     }
 
 }

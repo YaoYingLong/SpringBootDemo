@@ -567,12 +567,115 @@ public class BfsTraversal {
         return arrays;
     }
 
+    /**
+     * 116
+     * 填充每个节点的下一个右侧节点指针
+     *
+     * @param root
+     * @return
+     */
+    public Node connect(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                Node currentNode = queue.poll();
+                if (currentNode.left != null) {
+                    queue.offer(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    queue.offer(currentNode.right);
+                }
+                if (i < len - 1) {
+                    currentNode.next = queue.peek();
+                }
+            }
+        }
+        return root;
+    }
+
+    public Node connectV2(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Node leftMost = root;
+        while (leftMost.left != null) {
+            Node head = leftMost;
+            while (head != null) {
+                head.left.next = head.right;
+                if (head.next != null) {
+                    head.right.next = head.next.left;
+                }
+                head = head.next;
+            }
+            leftMost = leftMost.left;
+        }
+        return root;
+    }
+
+    /**
+     * 515
+     * 在每个树行中找最大值
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            int levelMax = Integer.MIN_VALUE;
+            for (int i = 0; i < len; i++) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                levelMax = Math.max(levelMax, node.val);
+            }
+            resultList.add(levelMax);
+        }
+        return resultList;
+    }
+
     class ListNode {
         int val;
         ListNode next;
 
         ListNode(int x) {
             val = x;
+        }
+    }
+
+    class Node {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node next;
+
+        public Node() {
+        }
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, Node _left, Node _right, Node _next) {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
         }
     }
 }
