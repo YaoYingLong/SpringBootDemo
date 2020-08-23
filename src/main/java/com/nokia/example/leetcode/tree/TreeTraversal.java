@@ -609,4 +609,25 @@ public class TreeTraversal {
         maxAncestorDiffDfs(root.left, maxParent, minParent);
         maxAncestorDiffDfs(root.right, maxParent, minParent);
     }
+
+    /**
+     * 998
+     * 最大二叉树 II
+     *
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode insertIntoMaxTree(TreeNode root, int val) {
+        if (root == null || root.val < val) {
+            TreeNode node = new TreeNode(val);
+            node.left = root;
+            return node;
+        }
+
+        TreeNode right = insertIntoMaxTree(root.right, val);
+        root.right = right;
+        return root;
+    }
+
 }
