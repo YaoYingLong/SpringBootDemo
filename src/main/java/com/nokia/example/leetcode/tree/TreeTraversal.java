@@ -4,6 +4,7 @@ import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -676,4 +677,121 @@ public class TreeTraversal {
         return root;
     }
 
+    /**
+     * 655
+     * 输出二叉树
+     *
+     * @param root
+     * @return
+     */
+    public List<List<String>> printTree(TreeNode root) {
+        List<List<String>> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        int maxDepth = maxDepth(root);
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int levelCount = 1;
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            List<String> subList = new ArrayList<>();
+            int fillCount = (1 << maxDepth - levelCount) - 1;
+            for (int i = 0; i < len; i++) {
+                TreeNode node = queue.poll();
+                for (int i1 = 0; i1 < fillCount; i1++) {
+                    subList.add("");
+                }
+                if (node == null) {
+                    subList.add("");
+                } else {
+                    subList.add(String.valueOf(node.val));
+                }
+                for (int i1 = 0; i1 < fillCount; i1++) {
+                    subList.add("");
+                }
+                if (len > 1 && i < len - 1) {
+                    subList.add("");
+                }
+                queue.offer(node == null ? null : node.left);
+                queue.offer(node == null ? null : node.right);
+            }
+            resultList.add(subList);
+            if (maxDepth == levelCount) {
+                return resultList;
+            }
+            levelCount++;
+        }
+        return resultList;
+    }
+
+    /**
+     * 437
+     * 路径总和 III
+     *
+     * @param root
+     * @param sum
+     * @return
+     */
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        int count = pathSumDfs(root, sum);
+        int left = pathSum(root.left, sum);
+        int right = pathSum(root.right, sum);
+        return left + right + count;
+    }
+
+    public int pathSumDfs(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        sum -= root.val;
+        int left = pathSumDfs(root.left, sum);
+        int right = pathSumDfs(root.right, sum);
+        return sum == 0 ? left + right + 1 : left + right;
+    }
+
+    public int pathSumV2(TreeNode root, int sum) {
+        Map<Integer, Integer> resMap = new HashMap<>();
+        resMap.put(0, 1);
+        return pathSumDfsV2(root, resMap, sum, 0);
+    }
+
+    public int pathSumDfsV2(TreeNode root, Map<Integer, Integer> resMap, int sum, int current) {
+        if (root == null) {
+            return 0;
+        }
+        int count = 0;
+        current += root.val;
+        count += resMap.getOrDefault(current - sum, 0);
+        resMap.put(current, resMap.getOrDefault(current, 0) + 1);
+        int left = pathSumDfsV2(root.left, resMap, sum, current);
+        int right = pathSumDfsV2(root.right, resMap, sum, current);
+        resMap.put(current, resMap.getOrDefault(current, 0) - 1);
+        return left + right + count;
+    }
+
+
+    List<TreeNode> dupSubTreeList = new ArrayList<>();
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        Map<String, Integer> subTreeMap = new HashMap<>();
+        findDuplicateSubtreesDfs(root, subTreeMap);
+        return dupSubTreeList;
+    }
+
+    public String findDuplicateSubtreesDfs(TreeNode root, Map<String, Integer> subTreeMap) {
+        if (root == null) {
+            return "#";
+        }
+        String key = root.val + "," +  findDuplicateSubtreesDfs(root.left, subTreeMap)
+                + "," + findDuplicateSubtreesDfs(root.right, subTreeMap);
+        subTreeMap.put(key, subTreeMap.getOrDefault(key, 0) + 1);
+        if (subTreeMap.getOrDefault(key, 0) == 2) {
+            dupSubTreeList.add(root);
+        }
+        return key;
+    }
 }

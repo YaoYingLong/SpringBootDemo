@@ -403,4 +403,36 @@ public class BackorderTraversal {
         sumMap.merge(left + right + root.val, 1, Integer::sum);
         return left + right + root.val;
     }
+
+    /**
+     * 剑指 Offer 34
+     * 二叉树中和为某一值的路径
+     *
+     * @param root
+     * @param sum
+     * @return
+     */
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        sum -= root.val;
+        List<List<Integer>> left = pathSum(root.left, sum);
+        List<List<Integer>> right = pathSum(root.right, sum);
+        for (List<Integer> subList : left) {
+            subList.add(0, root.val);
+        }
+        for (List<Integer> subList : right) {
+            subList.add(0, root.val);
+        }
+        if (root.left == null && root.right == null && sum == 0) {
+            List<Integer> subList = new ArrayList<>();
+            subList.add(root.val);
+            resultList.add(subList);
+        }
+        resultList.addAll(left);
+        resultList.addAll(right);
+        return resultList;
+    }
 }
