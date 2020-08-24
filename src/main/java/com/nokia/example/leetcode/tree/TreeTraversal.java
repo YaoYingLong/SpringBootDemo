@@ -4,7 +4,6 @@ import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
 import java.util.*;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -634,8 +633,8 @@ public class TreeTraversal {
     /**
      * 337
      * 打家劫舍 III
-     *  用 f(o) 表示选择 o 节点的情况下，o 节点的子树上被选择的节点的最大权值和；g(o) 表示不选择 o 节点的情况下，o 节点的子树上被选择的节点的最大权值和；l 和 r 代表 o 的左右孩子。
-     *
+     * 用 f(o) 表示选择 o 节点的情况下，o 节点的子树上被选择的节点的最大权值和；g(o) 表示不选择 o 节点的情况下，o 节点的子树上被选择的节点的最大权值和；l 和 r 代表 o 的左右孩子。
+     * <p>
      * 当 o 被选中时，o 的左右孩子都不能被选中，故 o 被选中情况下子树上被选中点的最大权值和为 l 和 r 不被选中的最大权值和相加，即 f(o) = g(l) + g(r)。
      * 当 o 不被选中时，o 的左右孩子可以被选中，也可以不被选中。对于 o 的某个具体的孩子 xx，它对 o 的贡献是 xx 被选中和不被选中情况下权值和的较大值。故g(o)=max{f(l),g(l)}+max{f(r),g(r)}。
      *
@@ -657,4 +656,24 @@ public class TreeTraversal {
         int notSelected = Math.max(left[0], left[1]) + Math.max(rigt[0], rigt[1]);
         return new int[]{selected, notSelected};
     }
+
+    /**
+     * 865
+     * 具有所有最深结点的最小子树
+     *
+     * @param root
+     * @return
+     */
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        if (left < right) {
+            return subtreeWithAllDeepest(root.right);
+        }
+        if (left > right) {
+            return subtreeWithAllDeepest(root.left);
+        }
+        return root;
+    }
+
 }

@@ -453,6 +453,7 @@ public class SearchTree {
         }
         return G[n];
     }
+
     public int numTreesV2(int n) {
         long C = 1;
         for (int i = 0; i < n; ++i) {
@@ -494,5 +495,25 @@ public class SearchTree {
             }
         }
         return resultList;
+    }
+
+    /**
+     * 面试题 04.06
+     * 后继者
+     *
+     * @param root
+     * @param p
+     * @return
+     */
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        if (root == null || p == null) {
+            return null;
+        }
+        if (p.val >= root.val) {
+            return inorderSuccessor(root.right, p);
+        } else {
+            TreeNode left = inorderSuccessor(root.left, p);
+            return left != null ? left : root;
+        }
     }
 }
