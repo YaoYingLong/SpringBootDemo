@@ -68,4 +68,50 @@ public class InorderTraversal {
         }
         return null;
     }
+
+    /**
+     * 1530
+     * 好叶子节点对的数量
+     *
+     * @param root
+     * @param distance
+     * @return
+     */
+    int count = 0;
+    public int countPairs(TreeNode root, int distance) {
+        countPairsDfs(root, distance);
+        return count;
+    }
+
+    public List<List<Integer>> countPairsDfs(TreeNode root, int distance) {
+        List<List<Integer>> resultList = new ArrayList<>();
+        if (root == null) {
+            return resultList;
+        }
+        List<List<Integer>> leftList = countPairsDfs(root.left, distance);
+        List<List<Integer>> rightList = countPairsDfs(root.right, distance);
+        if (!leftList.isEmpty() && !rightList.isEmpty()) {
+            for (List<Integer> leftSubList : leftList) {
+                for (List<Integer> rightSubList : rightList) {
+                    if (leftSubList.size() + rightSubList.size() <= distance) {
+                        count++;
+                    }
+                }
+            }
+        }
+        for (List<Integer> subList : leftList) {
+            subList.add(0, root.val);
+        }
+        for (List<Integer> subList : rightList) {
+            subList.add(0, root.val);
+        }
+        if (root.left == null && root.right == null) {
+            List<Integer> subList = new ArrayList<>();
+            subList.add(root.val);
+            resultList.add(subList);
+        }
+        resultList.addAll(leftList);
+        resultList.addAll(rightList);
+        return resultList;
+    }
 }

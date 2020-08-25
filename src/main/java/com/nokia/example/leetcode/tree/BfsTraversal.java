@@ -570,6 +570,9 @@ public class BfsTraversal {
     /**
      * 116
      * 填充每个节点的下一个右侧节点指针
+     * <p>
+     * 117
+     * 填充每个节点的下一个右侧节点指针 II
      *
      * @param root
      * @return
@@ -617,6 +620,39 @@ public class BfsTraversal {
         return root;
     }
 
+    public Node connectV3(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Node leftMost = root;
+        Node cur;
+        Node prev;
+        while (leftMost != null) {
+            prev = null;
+            cur = leftMost;
+            leftMost = null;
+            while (cur != null) {
+                if (cur.left != null) {
+                    if (prev != null) {
+                        prev.next = cur.left;
+                    } else {
+                        leftMost = cur.left;
+                    }
+                    prev = cur.left;
+                }
+                if (cur.right != null) {
+                    if (prev != null) {
+                        prev.next = cur.right;
+                    } else {
+                        leftMost = cur.right;
+                    }
+                    prev = cur.right;
+                }
+                cur = cur.next;
+            }
+        }
+        return root;
+    }
     /**
      * 515
      * 在每个树行中找最大值
