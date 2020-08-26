@@ -248,4 +248,20 @@ public class TreeTest {
         TreeTraversal treeTraversal = new TreeTraversal();
         System.out.println(treeTraversal.findDuplicateSubtrees(node1));
     }
+
+    @Test
+    public void pathSumV2Test() {
+        TreeNode node10 = new TreeNode(1);
+        TreeNode node9 = new TreeNode(5);
+        TreeNode node8 = new TreeNode(2);
+        TreeNode node7 = new TreeNode(7);
+        TreeNode node6 = new TreeNode(4, node9, node10);
+        TreeNode node5 = new TreeNode(13);
+        TreeNode node4 = new TreeNode(11, node7, node8);
+        TreeNode node3 = new TreeNode(8, node5, node6);
+        TreeNode node2 = new TreeNode(4, node4, null);
+        TreeNode node1 = new TreeNode(5, node2, node3);
+        TreeTraversal treeTraversal = new TreeTraversal();
+        System.out.println(treeTraversal.pathSumV2(node1, 22));
+    }
 }

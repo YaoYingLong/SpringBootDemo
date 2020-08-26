@@ -4,7 +4,6 @@ import com.nokia.example.leetcode.entity.NTreeNode;
 import com.nokia.example.leetcode.entity.TreeNode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author by YingLong on 2020/7/27
@@ -729,6 +728,9 @@ public class TreeTraversal {
     /**
      * 437
      * 路径总和 III
+     * <p>
+     * 面试题 04.12
+     * 求和路径
      *
      * @param root
      * @param sum
@@ -738,9 +740,9 @@ public class TreeTraversal {
         if (root == null) {
             return 0;
         }
-        int count = pathSumDfs(root, sum);
         int left = pathSum(root.left, sum);
         int right = pathSum(root.right, sum);
+        int count = pathSumDfs(root, sum);
         return left + right + count;
     }
 
@@ -776,6 +778,7 @@ public class TreeTraversal {
 
 
     List<TreeNode> dupSubTreeList = new ArrayList<>();
+
     public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
         Map<String, Integer> subTreeMap = new HashMap<>();
         findDuplicateSubtreesDfs(root, subTreeMap);
@@ -786,12 +789,82 @@ public class TreeTraversal {
         if (root == null) {
             return "#";
         }
-        String key = root.val + "," +  findDuplicateSubtreesDfs(root.left, subTreeMap)
+        String key = root.val + "," + findDuplicateSubtreesDfs(root.left, subTreeMap)
                 + "," + findDuplicateSubtreesDfs(root.right, subTreeMap);
         subTreeMap.put(key, subTreeMap.getOrDefault(key, 0) + 1);
         if (subTreeMap.getOrDefault(key, 0) == 2) {
             dupSubTreeList.add(root);
         }
         return key;
+    }
+
+    /**
+     * 1372
+     * 二叉树中的最长交错路径
+     *
+     * @param root
+     * @return
+     */
+    public int maxAns = 0;
+
+    public int longestZigZag(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        longestZigZagDfs(root, true, 0);
+        longestZigZagDfs(root, false, 0);
+        return maxAns;
+    }
+
+    public void longestZigZagDfs(TreeNode root, boolean flag, int len) {
+        maxAns = Math.max(maxAns, len);
+        if (flag) {
+            if (root.left != null) {
+                longestZigZagDfs(root.left, false, len + 1);
+            }
+            if (root.right != null) {
+                longestZigZagDfs(root.right, true, 1);
+            }
+        } else {
+            if (root.right != null) {
+                longestZigZagDfs(root.right, true, len + 1);
+            }
+            if (root.left != null) {
+                longestZigZagDfs(root.left, false, 1);
+            }
+        }
+    }
+
+    /**
+     * 988
+     * 从叶结点开始的最小字符串
+     *
+     * @param root
+     * @return
+     */
+    String ans = "~";
+
+    public String smallestFromLeaf(TreeNode root) {
+        StringBuffer sb = new StringBuffer();
+        smallestFromLeafDfs(root, sb);
+        return ans;
+    }
+
+    public void smallestFromLeafDfs(TreeNode root, StringBuffer sb) {
+        if (root == null) {
+            return;
+        }
+        sb.append((char) ('a' + root.val));
+        if (root.left == null && root.right == null) {
+            sb.reverse();
+            String s = sb.toString();
+            sb.reverse();
+            if (s.compareTo(ans) < 0) {
+                ans = s;
+            }
+        }
+        smallestFromLeafDfs(root.left, sb);
+        smallestFromLeafDfs(root.right, sb);
+        sb.deleteCharAt(sb.length() - 1);
     }
 }
