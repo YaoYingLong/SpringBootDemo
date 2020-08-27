@@ -366,6 +366,9 @@ public class SearchTree {
     /**
      * 面试题 04.05
      * 合法二叉搜索树
+     * <p>
+     * 98
+     * 验证二叉搜索树
      *
      * @param root
      * @return
@@ -377,16 +380,10 @@ public class SearchTree {
             return true;
         }
         boolean left = isValidBST(root.left);
-        if (!left) {
+        if (!left || min != null && root.val <= min) {
             return false;
         }
-        if (min == null) {
-            min = root.val;
-        } else if (root.val > min) {
-            min = root.val;
-        } else {
-            return false;
-        }
+        min = root.val;
         return isValidBST(root.right);
     }
 
@@ -402,13 +399,10 @@ public class SearchTree {
                 node = node.left;
             }
             node = stack.pop();
-            if (min == null) {
-                min = node.val;
-            } else if (node.val > min) {
-                min = node.val;
-            } else {
+            if (min != null && node.val <= min) {
                 return false;
             }
+            min = node.val;
             node = node.right;
         }
         return true;
@@ -516,4 +510,51 @@ public class SearchTree {
             return left != null ? left : root;
         }
     }
+
+    /**
+     * 450
+     * 删除二叉搜索树中的节点
+     *
+     * @param root
+     * @param key
+     * @return
+     */
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) {
+            return null;
+        }
+        if (key > root.val) {
+            root.right = deleteNode(root.right, key);
+        } else if (key < root.val) {
+            root.left = deleteNode(root.left, key);
+        } else {
+            if (root.left == null && root.right == null) {
+                root = null;
+            } else if (root.right != null) {
+                root.val = successor(root);
+                root.right = deleteNode(root.right, root.val);
+            } else {
+                root.val = predecessor(root);
+                root.left = deleteNode(root.left, root.val);
+            }
+        }
+        return root;
+    }
+
+    public int successor(TreeNode root) {
+        root = root.right;
+        while (root.left != null) {
+            root = root.left;
+        }
+        return root.val;
+    }
+
+    public int predecessor(TreeNode root) {
+        root = root.left;
+        while (root.right != null) {
+            root = root.right;
+        }
+        return root.val;
+    }
+
 }

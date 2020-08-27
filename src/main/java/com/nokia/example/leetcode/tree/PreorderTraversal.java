@@ -460,4 +460,34 @@ public class PreorderTraversal {
         temp.removeLast();
     }
 
+    /**
+     * 971
+     * 翻转二叉树以匹配先序遍历
+     *
+     * @param root
+     * @param voyage
+     * @return
+     */
+    public int flipIndex = 0;
+    public List<Integer> resultList = new ArrayList<>();
+    public List<Integer> flipMatchVoyage(TreeNode root, int[] voyage) {
+        flipMatchVoyageDfs(root, voyage);
+        return resultList;
+    }
+
+    public boolean flipMatchVoyageDfs(TreeNode root, int[] voyage) {
+        if (root == null || flipIndex > voyage.length - 1) {
+            return true;
+        }
+        if (root.val != voyage[flipIndex++]) {
+            resultList.clear();
+            resultList.add(-1);
+            return false;
+        }
+        if (root.left != null && voyage[flipIndex] != root.left.val) {
+            resultList.add(root.val);
+            return flipMatchVoyageDfs(root.right, voyage) && flipMatchVoyageDfs(root.left, voyage);
+        }
+        return flipMatchVoyageDfs(root.left, voyage) && flipMatchVoyageDfs(root.right, voyage);
+    }
 }
