@@ -868,5 +868,113 @@ public class TreeTraversal {
         sb.deleteCharAt(sb.length() - 1);
     }
 
+    /**
+     * 662
+     * 二叉树最大宽度
+     *
+     * @param root
+     * @return
+     */
+    public int widthOfBinaryTree(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        Queue<AnnotatedNode> queue = new LinkedList<>();
+        queue.offer(new AnnotatedNode(root, 0, 0));
+        int maxWidth = 0;
+        int left = 0, currDepth = 0;
+        while (!queue.isEmpty()) {
+            AnnotatedNode node = queue.poll();
+            if (node.node != null) {
+                queue.offer(new AnnotatedNode(node.node.left, node.depth + 1, node.pos * 2));
+                queue.offer(new AnnotatedNode(node.node.right, node.depth + 1, node.pos * 2 + 1));
+                if (currDepth != node.depth) {
+                    currDepth = node.depth;
+                    left = node.pos;
+                }
+                maxWidth = Math.max(maxWidth, node.pos - left + 1);
+            }
+        }
+        return maxWidth;
+    }
 
+    private int maxWidth = 0;
+    private Map<Integer, Integer> leftMap = new HashMap<>();
+
+    public int widthOfBinaryTreeV2(TreeNode root) {
+        widthOfBinaryTreeDfs(root, 0, 0);
+        return maxWidth;
+    }
+
+    public void widthOfBinaryTreeDfs(TreeNode root, int depth, int pos) {
+        if (root == null) {
+            return;
+        }
+        leftMap.computeIfAbsent(depth, x -> pos);
+        maxWidth = Math.max(maxWidth, pos - leftMap.get(depth) + 1);
+        widthOfBinaryTreeDfs(root.left, depth + 1, pos * 2);
+        widthOfBinaryTreeDfs(root.right, depth + 1, pos * 2 + 1);
+    }
+
+    class AnnotatedNode {
+        TreeNode node;
+        int depth, pos;
+
+        AnnotatedNode(TreeNode n, int d, int p) {
+            node = n;
+            depth = d;
+            pos = p;
+        }
+    }
+
+
+    /**
+     * 1443
+     * 收集树上所有苹果的最少时间
+     * 思路：标记所有走过的路线
+     * 注意点：树的父节点是惟一的，在从下往上构建树的路径时，如果路径已存在，说明不需要反转，因为给到的数据是没有方向的
+     *
+     * @param n
+     * @param edges
+     * @param hasApple
+     * @return int
+     * n = 7,
+     * edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]],
+     * hasApple = [false,false,true,false,true,true,false]
+     * <p>
+     * n = 7,
+     * edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]],
+     * hasApple = [false,false,true,false,false,true,false]
+     * <p>
+     * [[0,2],[0,3],[1,2]]
+     */
+    int minTimeAns = 0;
+    boolean[] visited;
+
+    public int minTime(int n, int[][] edges, List<Boolean> hasApple) {
+        Integer[] toFrom = new Integer[n];
+        for (int[] edge : edges) {
+            if (toFrom[edge[1]] != null) {
+                toFrom[edge[0]] = edge[1];
+            } else {
+                toFrom[edge[1]] = edge[0];
+            }
+        }
+        visited = new boolean[n];
+        visited[0] = true;
+        for (int i = 0; i < n; i++) {
+            if (hasApple.get(i)) {
+                minTimeDfs(i, toFrom);
+            }
+        }
+        return minTimeAns * 2;
+    }
+
+    public void minTimeDfs(int i, Integer[] toFrom) {
+        if (!visited[i]) {
+            visited[i] = true;
+            minTimeAns++;
+            minTimeDfs(toFrom[i], toFrom);
+        }
+    }
 }

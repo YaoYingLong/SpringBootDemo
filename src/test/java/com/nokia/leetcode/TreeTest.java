@@ -264,4 +264,13 @@ public class TreeTest {
         TreeTraversal treeTraversal = new TreeTraversal();
         System.out.println(treeTraversal.pathSumV2(node1, 22));
     }
+
+    @Test
+    public void testKK() {
+        System.out.println(1 << 0);
+        System.out.println(1 << 1);
+        System.out.println(1 << 2);
+        System.out.println(1 << 3);
+        System.out.println(1 << 4);
+    }
 }
