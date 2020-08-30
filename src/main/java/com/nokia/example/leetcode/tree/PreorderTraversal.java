@@ -3,6 +3,7 @@ package com.nokia.example.leetcode.tree;
 import com.nokia.example.leetcode.entity.TreeNode;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 前序遍历相关的题
@@ -470,6 +471,7 @@ public class PreorderTraversal {
      */
     public int flipIndex = 0;
     public List<Integer> resultList = new ArrayList<>();
+
     public List<Integer> flipMatchVoyage(TreeNode root, int[] voyage) {
         flipMatchVoyageDfs(root, voyage);
         return resultList;
@@ -490,4 +492,61 @@ public class PreorderTraversal {
         }
         return flipMatchVoyageDfs(root.left, voyage) && flipMatchVoyageDfs(root.right, voyage);
     }
+
+    /**
+     * 987
+     * 二叉树的垂序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        Map<Integer, List<Location>> resultMap = new TreeMap<>();
+        verticalTraversalDfs(root, 0, 0, resultMap);
+
+        List<List<Integer>> result = new ArrayList<>();
+        for (Integer index : resultMap.keySet()) {
+            List<Location> subList = resultMap.get(index);
+            Collections.sort(subList);
+            result.add(subList.stream().map(Location::getVal).collect(Collectors.toList()));
+        }
+        return result;
+    }
+
+    public void verticalTraversalDfs(TreeNode root, int x, int y, Map<Integer, List<Location>> resultMap) {
+        if (root == null) {
+            return;
+        }
+        List<Location> subList = resultMap.getOrDefault(x, new ArrayList<>());
+        subList.add(new Location(x, y, root.val));
+        resultMap.put(x, subList);
+        verticalTraversalDfs(root.left, x - 1, y + 1, resultMap);
+        verticalTraversalDfs(root.right, x + 1, y + 1, resultMap);
+    }
+
+    class Location implements Comparable<Location> {
+        int x, y, val;
+
+        public Location(int x, int y, int val) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+
+        public int getVal() {
+            return val;
+        }
+
+        @Override
+        public int compareTo(Location o) {
+            if (this.x != o.x) {
+                return Integer.compare(this.x, o.x);
+            } else if (this.y != o.y) {
+                return Integer.compare(this.y, o.y);
+            } else {
+                return Integer.compare(this.val, o.val);
+            }
+        }
+    }
+
 }

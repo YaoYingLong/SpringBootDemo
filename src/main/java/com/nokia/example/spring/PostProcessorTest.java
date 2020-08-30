@@ -11,7 +11,8 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 public class PostProcessorTest {
 
     public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigWebApplicationContext();
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+//        context.refresh();
         CustomBean bean = (CustomBean) context.getBean("customBean");
         System.out.println("################ 实例化、初始化bean完成");
         System.out.println("****************下面输出结果");
