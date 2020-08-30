@@ -1,5 +1,7 @@
 package com.nokia.example.leetcode.tree;
 
+import com.nokia.example.leetcode.entity.ListNode;
+import com.nokia.example.leetcode.entity.Location;
 import com.nokia.example.leetcode.entity.TreeNode;
 
 import java.util.*;
@@ -524,29 +526,30 @@ public class PreorderTraversal {
         verticalTraversalDfs(root.right, x + 1, y + 1, resultMap);
     }
 
-    class Location implements Comparable<Location> {
-        int x, y, val;
+    /**
+     * 1367
+     * 二叉树中的列表
+     *
+     * @param head
+     * @param root
+     * @return
+     */
+    public boolean isSubPath(ListNode head, TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        return isSubPathDfs(head, root)|| isSubPath(head, root.left)|| isSubPath(head, root.right);
+}
 
-        public Location(int x, int y, int val) {
-            this.x = x;
-            this.y = y;
-            this.val = val;
+    public boolean isSubPathDfs(ListNode head, TreeNode root) {
+        if (head == null) {
+            return true;
         }
 
-        public int getVal() {
-            return val;
+        if (root == null || root.val != head.val) {
+            return false;
         }
 
-        @Override
-        public int compareTo(Location o) {
-            if (this.x != o.x) {
-                return Integer.compare(this.x, o.x);
-            } else if (this.y != o.y) {
-                return Integer.compare(this.y, o.y);
-            } else {
-                return Integer.compare(this.val, o.val);
-            }
-        }
+        return isSubPathDfs(head.next, root.left) || isSubPathDfs(head.next, root.right);
     }
-
 }
