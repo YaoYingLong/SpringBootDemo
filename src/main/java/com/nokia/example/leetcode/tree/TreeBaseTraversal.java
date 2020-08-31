@@ -57,15 +57,14 @@ public class TreeBaseTraversal {
      */
     public void inOrderDfs(TreeNode root) {
         Stack<TreeNode> stack = new Stack<>();
-        TreeNode node = root;
-        while (node != null || !stack.isEmpty()) {
-            while (node != null) {
-                stack.push(node);
-                node = node.left;
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
             }
-            node = stack.pop();
-            System.out.print(node.val);
-            node = node.right;
+            root = stack.pop();
+            System.out.print(root.val);
+            root = root.right;
         }
     }
 
@@ -86,24 +85,23 @@ public class TreeBaseTraversal {
      */
     public void backOrderDfs(TreeNode root) {
         Stack<TreeNode> stack = new Stack<>();
-        TreeNode node = root;
-        while (node != null || !stack.isEmpty()) {
-            while (node != null) {
-                stack.push(node);
-                node = node.left;
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
             }
-            node = stack.pop();
+            root = stack.pop();
             TreeNode right = null;
-            while (node.right == null || node.right == right) {
-                System.out.print(node.val);
-                right = node;
+            while (root.right == null || root.right == right) {
+                System.out.print(root.val);
+                right = root;
                 if (stack.isEmpty()) {
                     return;
                 }
-                node = stack.pop();
+                root = stack.pop();
             }
-            stack.push(node);
-            node = node.right;
+            stack.push(root);
+            root = root.right;
         }
     }
 

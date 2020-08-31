@@ -266,11 +266,51 @@ public class TreeTest {
     }
 
     @Test
+    public void treeSerializeTest() {
+        TreeSerialize serialize = new TreeSerialize();
+        TreeBaseTraversal treeBaseTraversal = new TreeBaseTraversal();
+        {
+            TreeNode node10 = new TreeNode(1);
+            TreeNode node9 = new TreeNode(5);
+            TreeNode node8 = new TreeNode(2);
+            TreeNode node7 = new TreeNode(7);
+            TreeNode node6 = new TreeNode(4, node9, node10);
+            TreeNode node5 = new TreeNode(13);
+            TreeNode node4 = new TreeNode(11, node7, node8);
+            TreeNode node3 = new TreeNode(8, node5, node6);
+            TreeNode node2 = new TreeNode(4, node4, null);
+            TreeNode node1 = new TreeNode(5, node2, node3);
+            String ser = serialize.serialize(node1);
+            System.out.println(ser);
+
+            TreeNode result = serialize.deserialize(ser);
+            treeBaseTraversal.bfs(result);
+        }
+        {
+            System.out.println();
+            TreeNode node2 = new TreeNode(2);
+            TreeNode node1 = new TreeNode(1, node2, null);
+            String ser = serialize.serialize(node1);
+            System.out.println(ser);
+
+            TreeNode result = serialize.deserialize(ser);
+            treeBaseTraversal.bfs(result);
+        }
+
+    }
+
+    @Test
     public void testKK() {
         System.out.println(1 << 0);
         System.out.println(1 << 1);
         System.out.println(1 << 2);
         System.out.println(1 << 3);
         System.out.println(1 << 4);
+        System.out.println();
+        System.out.println(2 << 0);
+        System.out.println(2 << 1);
+        System.out.println(2 << 2);
+        System.out.println(2 << 3);
+        System.out.println(2 << 4);
     }
 }

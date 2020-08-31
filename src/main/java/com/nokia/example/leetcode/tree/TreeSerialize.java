@@ -2,57 +2,59 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
- * @author by YingLong on 2020/8/25
+ * 剑指 Offer 37
+ * 序列化二叉树
+ *
+ * @author by YingLong on 2020/8/31
  */
 public class TreeSerialize {
 
-    // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        if (root == null) {
-            return null;
-        }
-        String rs = postorder(root);
-        return rs.substring(0, rs.length() - 1);
-    }
-
-    private String postorder(TreeNode root) {
         if (root == null) {
             return "";
         }
-        String left = postorder(root.left);
-        String right = postorder(root.right);
-        return left + right + root.val + "-";
+        StringBuffer sb = new StringBuffer();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node != null) {
+                sb.append(node.val);
+                queue.offer(node.left);
+                queue.offer(node.right);
+            }
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
 
-    // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        if (data == null || data.isEmpty()) {
+        if (data.equals("")) {
             return null;
         }
-
-        String[] reArr = data.split("-");
-        ArrayDeque<Integer> nums = new ArrayDeque<>();
-        for (String s : reArr) {
-            nums.add(Integer.valueOf(s));
+        String[] vals = data.split(",");
+        TreeNode root = new TreeNode(Integer.parseInt(vals[0]));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int index = 1;
+        while (!queue.isEmpty() && index < vals.length) {
+            TreeNode node = queue.poll();
+            if (!vals[index].equals("")) {
+                node.left = new TreeNode(Integer.parseInt(vals[index]));
+                queue.add(node.left);
+            }
+            index++;
+            if (index < vals.length && !vals[index].equals("")) {
+                node.right = new TreeNode(Integer.parseInt(vals[index]));
+                queue.add(node.right);
+            }
+            index++;
         }
-        return buildTree(Integer.MIN_VALUE, Integer.MAX_VALUE, nums);
-    }
-
-    private TreeNode buildTree(int lower, int upper, ArrayDeque<Integer> nums) {
-        if (nums.isEmpty()) {
-            return null;
-        }
-        int rootVal = nums.getLast();
-        if (rootVal > upper || rootVal < lower) {
-            return null;
-        }
-        nums.removeLast();
-        TreeNode root = new TreeNode(rootVal);
-        root.right = buildTree(rootVal, upper, nums);
-        root.left = buildTree(lower, rootVal, nums);
         return root;
     }
 }

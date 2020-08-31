@@ -2,9 +2,7 @@ package com.nokia.example.leetcode.tree;
 
 import com.nokia.example.leetcode.entity.TreeNode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author by YingLong on 2020/7/30
@@ -557,4 +555,34 @@ public class SearchTree {
         return root.val;
     }
 
+    /**
+     * 99
+     * 恢复二叉搜索树
+     *
+     * @param root
+     */
+    public void recoverTree(TreeNode root) {
+        Deque<TreeNode> queue = new ArrayDeque<>();
+        TreeNode x = null, y = null, prev = null;
+        while (!queue.isEmpty() || root != null) {
+            while (root != null) {
+                queue.push(root);
+                root = root.left;
+            }
+            root = queue.pop();
+            if (prev != null && root.val < prev.val) {
+                y = root;
+                if (x == null) {
+                    x = prev;
+                } else {
+                    break;
+                }
+            }
+            prev = root;
+            root = root.right;
+        }
+        int tmp = x.val;
+        x.val = y.val;
+        y.val = tmp;
+    }
 }
