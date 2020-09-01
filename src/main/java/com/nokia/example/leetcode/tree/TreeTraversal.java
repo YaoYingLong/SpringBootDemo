@@ -977,4 +977,28 @@ public class TreeTraversal {
             minTimeDfs(toFrom[i], toFrom);
         }
     }
+
+
+    /**
+     * 124
+     * 二叉树中的最大路径和
+     *
+     * @param root
+     * @return
+     */
+    public int maxPathSum = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        maxGain(root);
+        return maxPathSum;
+    }
+
+    public int maxGain(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = Math.max(maxGain(root.left), 0);
+        int right = Math.max(maxGain(root.right), 0);
+        maxPathSum = Math.max(root.val + left + right, maxPathSum);
+        return root.val + Math.max(left, right);
+    }
 }

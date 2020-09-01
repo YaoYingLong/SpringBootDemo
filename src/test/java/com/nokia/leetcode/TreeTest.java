@@ -313,4 +313,9 @@ public class TreeTest {
         System.out.println(2 << 3);
         System.out.println(2 << 4);
     }
+
+    @Test
+    public void maxPathSumTest() {
+        
+    }
 }
