@@ -71,31 +71,35 @@ public class QuickSort {
         }
     }
 
-    public void quickSort02(int[] arr , int left, int right){
-        if(left < right){
+    public void quickSort02(Integer[] arr, int left, int right) {
+        if (left < right) {
             int dl = left, dr = right, pivot = arr[left];
-            while(dl < dr){
-                while (dl<dr && arr[dr] > pivot)
+            while (dl < dr) {
+                while (dl < dr && arr[dr] > pivot) {
                     dr--;
-                if (dl < dr)
+                }
+                if (dl < dr) {
                     arr[dl++] = arr[dr];
-                while(dl < dr && arr[dl] < pivot)
+                }
+                while (dl < dr && arr[dl] < pivot) {
                     dl++;
-                if(dl < dr)
+                }
+                if (dl < dr) {
                     arr[dr--] = arr[dl];
+                }
             }
             arr[dl] = pivot;
-            quickSort02(arr , left , dl - 1);
-            quickSort02(arr, dl + 1 , right);
+            quickSort02(arr, left, dl - 1);
+            quickSort02(arr, dl + 1, right);
         }
     }
 
 
     @Test
-    public void QuickSortTest(){
-        Integer[] arr = {8,6,4,9,74,25,1,3,5,28,35,0,22,2,7,10,26,29};
-        System.err.println("before:"+ Arrays.asList(arr));
-        quickSort01(arr , 0 , arr.length - 1);
+    public void QuickSortTest() {
+        Integer[] arr = {8, 6, 4, 9, 74, 25, 1, 3, 5, 28, 35, 0, 22, 2, 7, 10, 26, 29};
+        System.err.println("before:" + Arrays.asList(arr));
+        quickSort02(arr, 0, arr.length - 1);
         System.err.println(" after:" + Arrays.asList(arr));
     }
 }
