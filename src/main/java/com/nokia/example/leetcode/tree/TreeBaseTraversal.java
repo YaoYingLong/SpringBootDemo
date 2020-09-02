@@ -48,7 +48,7 @@ public class TreeBaseTraversal {
             return;
         }
         inOrder(treeNode.left);
-        System.out.print(treeNode.val);
+        System.out.print(treeNode.val + " ");
         inOrder(treeNode.right);
     }
 
