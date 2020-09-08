@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -36,9 +37,9 @@ public class ReflectIssue {
      */
 
     //this is a reflect public paramenter
-    public String reflectPara = "this is a reflect public parameter";
+    public String publicParam = "this is a reflect public parameter";
     //this is a reflect private parameter
-    private String reflectPara1 = "this is a reflect private parameter";
+    private String privateParam = "this is a reflect private parameter";
 
     private void reflectPrivate(String str) {
         System.out.println("private : " + str);
@@ -48,122 +49,15 @@ public class ReflectIssue {
         System.out.println("public : " + str);
     }
 
-    @Test
-    public void reflectTest() {
-        try {
-            Class clazz = Class.forName("com.nokia.example.Interview.ReflectIssue");
-            Method method1 = clazz.getMethod("reflectPublic", new Class[]{String.class});
-            method1.invoke(clazz.newInstance(), new Object[]{"this is a public function"});
-
-//            Method method2 = clazz.getMethod("reflectPrivate" , new Class[]{String.class});
-//            method1.invoke(clazz.newInstance() , new Object[]{"this is a private function"});
-
-            Method method3 = clazz.getDeclaredMethod("reflectPrivate", new Class[]{String.class});
-            method3.invoke(clazz.newInstance(), new Object[]{"this is a private function"});
-
-            ((ReflectIssue) clazz.newInstance()).reflectPrivate("this is a private function");
-
-            Field field = clazz.getField("reflectPara");
-            System.out.println("field name:" + field.getName());
-            System.out.println("field class:" + field.getDeclaringClass());
-            System.out.println("field modifier:" + field.getModifiers());
-            System.out.println("field value:" + field.get(clazz.newInstance()));
-            field.set(clazz.newInstance(), "new val");
-            System.out.println("field new value:" + field.get(clazz.newInstance()));
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+    public void moreParam(String paramA, String paramB) {
+        System.out.println("paramA : " + paramA + ", paramB：" + paramB);
     }
 
-    @Test
-    public void reflectMethodNameTest() {
-        String className = "com.nokia.example.Basics.Basic.StringTest";
-        try {
-            Class clazz = Class.forName(className);
-            Method method1 = clazz.getMethod("ClassOrMethodNameTest", null);
-            method1.invoke(clazz.newInstance(), new Object[0]);
-            System.out.println("*****************************");
-            ((StringTest) clazz.newInstance()).ClassOrMethodNameTest();
-            Method[] methods = clazz.getMethods();
-            for (Method method : methods) {
-                String methodName = method.getName();
-                System.out.println("方法名称:" + methodName);
-                Class<?>[] parameterTypes = method.getParameterTypes();
-                for (Class<?> clas : parameterTypes) {
-                    String parameterName = clas.getName();
-                    System.out.println("参数名称:" + parameterName);
-                }
-                System.out.println("*****************************");
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
+    public ReflectIssue(String publicParam, String privateParam) {
+        this.publicParam = publicParam;
+        this.privateParam = privateParam;
     }
 
-    @Test
-    public void ClassLoaderTest() {
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        System.out.println("class loader : " + classLoader.toString());
-
-        classLoader.getParent();
+    public ReflectIssue() {
     }
-
-    @Test
-    public void reflactTest() {
-        String className = "com.nokia.example.Interview.ReflectIssue";
-        try {
-            Class clazz = Class.forName(className);
-            Method method = clazz.getMethod("printString", new Class[]{String.class, String.class});
-            method.invoke(clazz.newInstance(), new Object[]{"this is a test", "AAAAA"});
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void printString(String str, String para) {
-        System.out.println("str:" + str + " : " + para);
-    }
-
-    static class ClassA {
-        public void println(String string) {
-            System.out.println(string);
-        }
-    }
-
-    public static void main(String[] args) throws Throwable {
-        Object obj = System.currentTimeMillis() % 2 == 0 ? System.out : new ClassA();
-
-        MethodType methodType = MethodType.methodType(void.class, String.class);
-        MethodHandle methodHandle = MethodHandles.lookup().findVirtual(obj.getClass(), "println", methodType).bindTo(obj);
-
-        methodHandle.invokeExact("lkkkk");
-    }
-
 }
