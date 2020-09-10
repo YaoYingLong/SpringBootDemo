@@ -41,14 +41,21 @@ public class ReflectIssueTest {
         privateParam.set(reflectIssue, "new private param value");
         System.out.println(privateParam.getName());
         System.out.println(privateParam.get(reflectIssue));
-
-        Constructor constructor = clazz.getConstructor(String.class, String.class);
-        ReflectIssue reflectIssue2 = (ReflectIssue) constructor.newInstance("paramA", "paramB");
-        System.out.println(reflectIssue2.publicParam);
-        Field privateParam2 = clazz.getDeclaredField("privateParam");
-        privateParam2.setAccessible(true);
-        System.out.println(privateParam2.getName());
-        System.out.println(privateParam2.get(reflectIssue2));
+        {
+            Constructor constructor = clazz.getConstructor(String.class, String.class);
+            ReflectIssue reflectIssue2 = (ReflectIssue) constructor.newInstance("paramA", "paramB");
+            System.out.println(reflectIssue2.publicParam);
+            Field privateParam2 = clazz.getDeclaredField("privateParam");
+            privateParam2.setAccessible(true);
+            System.out.println(privateParam2.getName());
+            System.out.println(privateParam2.get(reflectIssue2));
+        }
+        {
+            Constructor constructor = clazz.getDeclaredConstructor(String.class);
+            constructor.setAccessible(true);
+            ReflectIssue reflectIssue2 = (ReflectIssue) constructor.newInstance("paramA");
+            System.out.println("Private constructor : " + reflectIssue2.publicParam);
+        }
 
         {
             MethodType methodType = MethodType.methodType(void.class, String.class);
@@ -122,6 +129,7 @@ public class ReflectIssueTest {
 
 
             Method reflectPrivate = clazz.getDeclaredMethod("reflectPrivate", String.class);
+            reflectPrivate.setAccessible(true);
             reflectPrivate.invoke(clazz.newInstance(), "this is a private function");
 
             ((ReflectIssue) clazz.newInstance()).reflectPublic("this is a public function");

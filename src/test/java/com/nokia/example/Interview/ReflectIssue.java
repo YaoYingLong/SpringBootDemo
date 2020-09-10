@@ -58,6 +58,10 @@ public class ReflectIssue {
         this.privateParam = privateParam;
     }
 
+    private ReflectIssue(String publicParam) {
+        this.publicParam = publicParam;
+    }
+
     public ReflectIssue() {
     }
 }

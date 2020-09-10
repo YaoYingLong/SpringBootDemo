@@ -29,7 +29,7 @@ public class SerializableSimple implements Serializable{
             oos.writeObject(ted);
             oos.close();
         }catch (Exception ex){
-            ex.toString();
+            ex.printStackTrace();
         }
 
         try{
@@ -43,7 +43,7 @@ public class SerializableSimple implements Serializable{
             // Clean up the file
             new File("tempdata.ser").delete();
         }catch (Exception ex){
-            ex.toString();
+            ex.printStackTrace();
         }
     }
 
