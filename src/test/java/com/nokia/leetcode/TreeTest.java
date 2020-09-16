@@ -316,6 +316,8 @@ public class TreeTest {
 
     @Test
     public void maxPathSumTest() {
-        
+        for (int binCount = 0; binCount < 10; ++binCount) {
+            System.out.println(binCount);
+        }
     }
 }
