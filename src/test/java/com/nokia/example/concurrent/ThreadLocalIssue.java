@@ -1,6 +1,7 @@
 package com.nokia.example.concurrent;
 
 import javafx.scene.layout.VBox;
+import org.slf4j.MDC;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,7 +38,6 @@ public class ThreadLocalIssue {
         }
     };
 
-
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executor = Executors.newFixedThreadPool(10);
         for (int i = 0; i < 1000; i++) {
@@ -51,7 +51,7 @@ public class ThreadLocalIssue {
                 v.set(v.get() + 1);
             }));
         }
-
+        MDC.get("kk");
         Thread.sleep(11000);
         System.out.println(set.stream().map(Val::get).reduce((a, sum) -> a + sum).get());
         for (Val<Integer> integerVal : set) {
