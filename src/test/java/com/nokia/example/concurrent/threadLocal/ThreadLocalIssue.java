@@ -1,13 +1,10 @@
-package com.nokia.example.concurrent;
+package com.nokia.example.concurrent.threadLocal;
 
-import javafx.scene.layout.VBox;
 import org.slf4j.MDC;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author by YingLong on 2020/9/13

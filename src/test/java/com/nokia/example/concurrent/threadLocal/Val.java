@@ -1,4 +1,4 @@
-package com.nokia.example.concurrent;
+package com.nokia.example.concurrent.threadLocal;
 
 /**
  * @author by YingLong on 2020/9/16

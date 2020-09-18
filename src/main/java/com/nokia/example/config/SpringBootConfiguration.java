@@ -8,10 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Proxy;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
 @EnableTransactionManagement
@@ -33,5 +35,11 @@ public class SpringBootConfiguration {
     public DataSourceTransactionManager getTransactionManager(DataSource dataSource) {
         org.springframework.jdbc.datasource.DataSourceTransactionManager tm = new DataSourceTransactionManager(dataSource);
         return tm;
+    }
+
+    @Bean
+    public ThreadPoolTaskExecutor processExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        return executor;
     }
 }

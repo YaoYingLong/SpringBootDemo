@@ -1,4 +1,4 @@
-package com.nokia.example.concurrent;
+package com.nokia.example.concurrent.threadLocal;
 
 import org.junit.Test;
 
