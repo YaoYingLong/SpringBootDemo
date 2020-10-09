@@ -5,16 +5,27 @@ package com.nokia.example.DesignPattern.Singleton;
  */
 public class Singleton {
 
-    private static Singleton singleton = null;
+    private static volatile Singleton instance;
 
-    private Singleton(){
-
+    private static class SingletonHolder {
+        private static final Singleton INSTANCE = new Singleton();
     }
 
-    private Singleton getSingleton(){
-        if(singleton == null)
-            singleton = new Singleton();
-        return singleton;
+    private Singleton(){}
+
+//    public static Singleton getInstance() {
+//        return SingletonHolder.INSTANCE;
+//    }
+
+    public static Singleton getInstance(){
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
     }
 
 }

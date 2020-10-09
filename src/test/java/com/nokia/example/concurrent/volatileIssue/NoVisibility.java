@@ -5,6 +5,7 @@ package com.nokia.example.concurrent.volatileIssue;
  */
 public class NoVisibility {
 
+
     private static boolean ready;
     private static int number;
 
@@ -18,9 +19,10 @@ public class NoVisibility {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new ReaderThread().start();
         ready = true;
+        Thread.sleep(1000);
         number = 42;
     }
 
