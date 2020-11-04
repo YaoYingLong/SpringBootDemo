@@ -7,7 +7,6 @@ package com.nokia.example.DesignPattern.TemplateMethod;
  * 一般模板方法被定义为final避免被子类修改
  */
 public abstract class AbstractPerson {
-
     public final void prepareGotoSchool(){
         derssUp();
         eatBreakfast();
@@ -17,5 +16,4 @@ public abstract class AbstractPerson {
     protected abstract void derssUp();
     protected abstract void eatBreakfast();
     protected abstract void tackThings();
-
 }
