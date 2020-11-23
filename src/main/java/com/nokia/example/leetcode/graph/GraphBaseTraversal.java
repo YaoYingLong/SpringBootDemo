@@ -1,9 +1,6 @@
 package com.nokia.example.leetcode.graph;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author by YingLong on 2020/9/3
@@ -145,5 +142,30 @@ public class GraphBaseTraversal {
             weight++;
         }
         return weight;
+    }
+
+    /**
+     * 1030
+     * 距离顺序排列矩阵单元格
+     * 思路：
+     * - 由于输出是一个2列 R* C行的二维数组
+     * - 所以先将矩阵转换为上面说得二维数组
+     * - 再对二维数组中的数据排序
+     *
+     * @param R  - 矩阵的行
+     * @param C  - 矩阵的列
+     * @param r0 - 矩阵中点的横坐标
+     * @param c0 - 矩阵中点的纵坐标
+     * @return
+     */
+    public int[][] allCellsDistOrder(int R, int C, int r0, int c0) {
+        int[][] ret = new int[R * C][];
+        for (int i = 0; i < R; i++) {
+            for (int j = 0; j < C; j++) {
+                ret[i * C + j] = new int[]{i, j};
+            }
+        }
+        Arrays.sort(ret, Comparator.comparingInt(o -> Math.abs(o[0] - r0) + Math.abs(o[1] - c0)));
+        return ret;
     }
 }

@@ -14,4 +14,16 @@ public class GraphTest {
         System.out.println(traversal.getKth(12, 13, 2));
     }
 
+    @Test
+    public void allCellsDistOrderTest() {
+        GraphBaseTraversal traversal = new GraphBaseTraversal();
+        int[][] ret = traversal.allCellsDistOrder(5, 4, 2, 2);
+        for (int i = 0; i < ret.length; i++) {
+            for (int j = ret[i].length - 1; j >= 0; j--) {
+                System.out.print(ret[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
 }
