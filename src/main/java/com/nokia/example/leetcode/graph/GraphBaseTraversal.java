@@ -168,4 +168,41 @@ public class GraphBaseTraversal {
         Arrays.sort(ret, Comparator.comparingInt(o -> Math.abs(o[0] - r0) + Math.abs(o[1] - c0)));
         return ret;
     }
+
+    /**
+     * 797
+     * 所有可能的路径
+     * 输入：graph = [[4,3,1],[3,2,4],[3],[4],[]]
+     * 输出：[[0,4],[0,3,4],[0,1,3,4],[0,1,2,3,4],[0,1,4]]
+     * <p>
+     * 题目中给出的图是有向无环的，那么我们可以通过深度优先搜索的方法，递归求解出所有的路径。
+     * <p>
+     * 设图中有 N 个节点，在搜索时，如果我们到达了节点 N - 1，那么此时的路径就为 {N - 1}；
+     * 否则如果我们到达了其它的节点 node，那么路径就为 {node} 加上 {所有从 nei 到 N - 1} 的路径集合，其中 nei 是 node 直接相邻的节点。
+     *
+     * @param graph
+     * @return
+     */
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        return solve(graph, 0);
+    }
+
+    public List<List<Integer>> solve(int[][] graph, int node) {
+        int N = graph.length;
+        List<List<Integer>> ans = new ArrayList();
+        if (node == N - 1) {
+            List<Integer> path = new ArrayList();
+            path.add(N - 1);
+            ans.add(path);
+            return ans;
+        }
+
+        for (int nei : graph[node]) {
+            for (List<Integer> path : solve(graph, nei)) {
+                path.add(0, node);
+                ans.add(path);
+            }
+        }
+        return ans;
+    }
 }

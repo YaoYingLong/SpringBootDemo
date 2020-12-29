@@ -3,6 +3,8 @@ package com.nokia.leetcode;
 import com.nokia.example.leetcode.graph.GraphBaseTraversal;
 import org.junit.Test;
 
+import java.util.List;
+
 /**
  * @author by YingLong on 2020/9/4
  */
@@ -26,4 +28,27 @@ public class GraphTest {
         }
     }
 
+    @Test
+    public void allPathsSourceTargetTest() {
+        GraphBaseTraversal traversal = new GraphBaseTraversal();
+        {
+            int[][] graph = {{4,3,1},{3,2,4},{3},{4},{}};
+            for (List<Integer> integers : traversal.allPathsSourceTarget(graph)) {
+                for (Integer integer : integers) {
+                    System.out.print(integer + " ");
+                }
+                System.out.println();
+            }
+        }
+        System.out.println("--------------------");
+        {
+            int[][] graph = {{4,3,1},{3,2,4},{},{4},{}};
+            for (List<Integer> integers : traversal.allPathsSourceTarget(graph)) {
+                for (Integer integer : integers) {
+                    System.out.print(integer + " ");
+                }
+                System.out.println();
+            }
+        }
+    }
 }
