@@ -12,7 +12,17 @@ public class GraphDSUTraversalTest {
     public void regionsBySlashesTest() {
         GraphDSUTraversal graphDSUTraversal = new GraphDSUTraversal();
         String[] grid = new String[]{"\\/", "/\\"};
-        graphDSUTraversal.regionsBySlashes(grid);
+        System.out.println(graphDSUTraversal.regionsBySlashes(grid));
+        System.out.println(graphDSUTraversal.regionsBySlashesV2(grid));
     }
+
+
+    @Test
+    public void findRedundantConnectionTest() {
+        GraphDSUTraversal graphDSUTraversal = new GraphDSUTraversal();
+        int[][] data = {{1, 2}, {2, 3}, {3, 4}, {1, 4}, {1, 5}};
+        System.out.println(graphDSUTraversal.findRedundantConnection(data));
+    }
+
 
 }
