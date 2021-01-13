@@ -1,5 +1,9 @@
 package com.nokia.example.leetcode.graph;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 通过并查集的方式
  *
@@ -129,6 +133,7 @@ public class GraphDSUTraversal {
     }
 
     int[] result = new int[2];
+
     /**
      * 684
      * 冗余连接
@@ -193,4 +198,126 @@ public class GraphDSUTraversal {
         return count;
     }
 
+    /**
+     * 990
+     * 等式方程的可满足性
+     *
+     * @param equations
+     * @return
+     */
+    public boolean equationsPossible(String[] equations) {
+        int[] fa = new int[26];
+        for (int i = 0; i < 26; i++) {
+            fa[i] = i;
+        }
+        for (String equation : equations) {
+            if (equation.charAt(1) == '=') {
+                int left = equation.charAt(0) - 'a';
+                int right = equation.charAt(3) - 'a';
+                union990(fa, left, right);
+            }
+        }
+        for (String equation : equations) {
+            if (equation.charAt(1) == '!') {
+                int left = equation.charAt(0) - 'a';
+                int right = equation.charAt(3) - 'a';
+                if (find990(fa, left) == find990(fa, right)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private int find990(int[] fa, int left) {
+        return fa[left] == left ? left : (fa[left] = find990(fa, fa[left]));
+    }
+
+    private void union990(int[] fa, int left, int right) {
+        fa[find990(fa, left)] = find990(fa, right);
+    }
+
+    /**
+     * 399
+     * 除法求值
+     *
+     * @param equations
+     * @param values
+     * @param queries
+     * @return
+     */
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        UnionFind unionFind = new UnionFind(2 * equations.size());
+        int id = 0;
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < equations.size(); i++) {
+            List<String> equation = equations.get(i);
+            String varX = equation.get(0);
+            String varY = equation.get(1);
+            if (!map.containsKey(varX)) {
+                map.put(varX, id++);
+            }
+            if (!map.containsKey(varY)) {
+                map.put(varY, id++);
+            }
+            unionFind.union(map.get(varX), map.get(varY), values[i]);
+        }
+
+        double[] result = new double[queries.size()];
+        for (int i = 0; i < queries.size(); i++) {
+            List<String> query = queries.get(i);
+            String varX = query.get(0);
+            String varY = query.get(1);
+            if (map.get(varX) == null || map.get(varY) == null) {
+                result[i] = -1.0d;
+                continue;
+            }
+            result[i] = unionFind.isConnect(map.get(varX), map.get(varY));
+        }
+        return result;
+    }
+
+    private class UnionFind {
+        private int[] fa;
+
+        private double[] weight;
+
+        public UnionFind(int n) {
+            fa = new int[n];
+            weight = new double[n];
+            for (int i = 0; i < n; i++) {
+                fa[i] = i;
+                weight[i] = 1.0d;
+            }
+        }
+
+        public void union(int x, int y, double value) {
+            int rootX = find(x);
+            int rootY = find(y);
+            if (rootX == rootY) {
+                return;
+            }
+            fa[rootX] = rootY;
+            weight[rootX] = weight[y] * value / weight[x];
+        }
+
+        public int find(int x) {
+            if (fa[x] != x) {
+                int origin = fa[x];
+                fa[x] = find(fa[x]);
+                weight[x] *= weight[origin];
+            }
+            return fa[x];
+        }
+
+        public double isConnect(int x, int y) {
+            int rootX = find(x);
+            int rootY = find(y);
+            if (rootX == rootY) {
+                return weight[x] / weight[y];
+            } else {
+                return -1.0d;
+            }
+        }
+    }
 }
